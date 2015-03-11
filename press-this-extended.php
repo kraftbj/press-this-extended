@@ -88,14 +88,22 @@ class Press_This_Extended {
 		echo $html;
 	}
 
-	public function execute_html(){
+	public function execute_html( $html, $data ){
 		$legacy = get_option( 'press-this-extended-legacy' );
 
 		if ( $legacy ) {
-			$html = array(
-				'quote' => '',
-				'link'  => '<a href="%1$s">%2$s</a>',
-			);
+			if ( isset( $data['s'] ) ){
+				$html = array(
+					'quote' => '<p>%1$s</p>',
+					'link'  => '<p>via <a href="%1$s">%2$s</a></p>',
+					);
+			}
+			else {
+				$html = array(
+					'quote' => '',
+					'link'  => '<a href="%1$s">%2$s</a>',
+					);
+			}
 		}
 
 		return $html;
@@ -111,7 +119,7 @@ class Press_This_Extended {
 		$legacy = get_option( 'press-this-extended-legacy' );
 
 		if ( $legacy ) {
-			add_filter( 'press_this_suggested_html', array( $this, 'execute_html') );
+			add_filter( 'press_this_suggested_html', array( $this, 'execute_html'), 10, 2 );
 			add_filter( 'enable_press_this_media_discovery', '__return_false' ); // It did exist previously but virtually no one used it.
 		}
 	}
