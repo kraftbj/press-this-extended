@@ -4,7 +4,7 @@
  * Press This Extended
  *
  * @package     BJGK\Press_this_extended
- * @version     0.1
+ * @version     0.1-20150311-1332
  * @author      Brandon Kraft <public@brandonkraft.com>
  * @copyright   Copyright (c) 2015, Brandon Kraft
  * @link        http://www.brandonkraft.com/press-this-extended/
@@ -14,7 +14,7 @@
  * Plugin Name: Press This Extended
  * Plugin URI:  http://www.brandonkraft.com/press-this-extended/
  * Description: Provides options for extending and modifying the Press This feature (WP 4.2+)
- * Version:     0.1
+ * Version:     0.1-20150311-1332
  * Author:      Brandon Kraft
  * Author URI:  http://www.brandonkraft.com
  * License:     GPL-2.0+
@@ -88,14 +88,22 @@ class Press_This_Extended {
 		echo $html;
 	}
 
-	public function execute_html(){
+	public function execute_html( $html, $data ){
 		$legacy = get_option( 'press-this-extended-legacy' );
 
 		if ( $legacy ) {
-			$html = array(
-				'quote' => '',
-				'link'  => '<a href="%1$s">%2$s</a>',
-			);
+			if ( isset( $data['s'] ) ){
+				$html = array(
+					'quote' => '<p>%1$s</p>',
+					'link'  => '<p>via <a href="%1$s">%2$s</a></p>',
+					);
+			}
+			else {
+				$html = array(
+					'quote' => '',
+					'link'  => '<a href="%1$s">%2$s</a>',
+					);
+			}
 		}
 
 		return $html;
@@ -111,7 +119,7 @@ class Press_This_Extended {
 		$legacy = get_option( 'press-this-extended-legacy' );
 
 		if ( $legacy ) {
-			add_filter( 'press_this_suggested_html', array( $this, 'execute_html') );
+			add_filter( 'press_this_suggested_html', array( $this, 'execute_html'), 10, 2 );
 			add_filter( 'enable_press_this_media_discovery', '__return_false' ); // It did exist previously but virtually no one used it.
 		}
 	}
