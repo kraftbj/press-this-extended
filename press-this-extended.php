@@ -42,10 +42,10 @@ class Press_This_Extended {
 	 * @access public
 	 */
 	public function __construct() {
-		// This only needs to fire in /wp-admin/ since PT is wp-admin exclusive.
-		add_action( 'admin_init', array( $this, 'load_translations' ) , 1 );
-		add_action( 'admin_init',  array( $this, 'add_settings' ) );
-		add_action( 'admin_init', array( $this, 'execute' ) );
+		add_action( 'admin_init',               array( $this, 'load_translations' ) , 1 );
+		add_action( 'admin_init',               array( $this, 'add_settings' ) );
+		add_action( 'admin_init',               array( $this, 'execute' ) );
+		add_action( 'load-options-writing.php', array( $this, 'help_tab' ) );
 	}
 
 
@@ -54,7 +54,7 @@ class Press_This_Extended {
  	 *
  	 * @since 1.0.0
  	 */
-	function load_translations() {
+	public function load_translations() {
 		$domain = 'press-this-extended';
 		$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
 		load_textdomain( $domain, trailingslashit( WP_LANG_DIR ) . $domain . '/' . $domain . '-' . $locale . '.mo' );
@@ -69,9 +69,21 @@ class Press_This_Extended {
 	 * @access public
 	 **/
 	public function add_settings() {
-		add_settings_section('press-this-extended', 'Press This', null, 'writing');
-		add_settings_field( 'press-this-extended-legacy', 'Legacy Mode', array( $this, 'press_this_extended_legacy' ), 'writing', 'press-this-extended');
-		register_setting( 'writing', 'press-this-extended-legacy', 'intval' );
+		$slug = 'press-this-extended';
+
+		add_settings_section( $slug, 'Press This', null, 'writing');
+
+		add_settings_field( $slug . '-legacy', __( 'Legacy Mode', $slug ), array( $this, 'press_this_extended_legacy' ), 'writing', $slug );
+		register_setting( 'writing', $slug . '-legacy', 'intval' );
+		add_filter( 'default_option_' . $slug . '-legacy', '__return_false' );
+
+		add_settings_field( $slug . '-media', __( 'Media Discovery', $slug ), array( $this, 'press_this_extended_media' ), 'writing', $slug );
+		register_setting( 'writing', $slug . '-media', 'intval' );
+		add_filter( 'default_option_'. $slug . '-media', '__return_true' );
+
+		add_settings_field( $slug . '-text', __( 'Text Discovery', $slug ), array( $this, 'press_this_extended_text' ), 'writing', $slug );
+		register_setting( 'writing', $slug . '-text', 'intval' );
+		add_filter( 'default_option_' . $slug . '-text', '__return_true' );
 	}
 
 	/**
@@ -83,8 +95,20 @@ class Press_This_Extended {
 	 **/
 	public function press_this_extended_legacy() {
 		$html = '<input type="checkbox" id="press-this-extended-legacy" name="press-this-extended-legacy" value="1" ' . checked(1, get_option('press-this-extended-legacy'), false) . '/>';
-		$html .= '<label for="press-this-extended-legacy"> '  . __( 'Have Press This mimic behavior prior to WordPress 4.2') . '</label>';
+		$html .= '<label for="press-this-extended-legacy"> '  . __( 'Have Press This mimic behavior prior to WordPress 4.2', 'press-this-extended' ) . '</label>';
 
+		echo $html;
+	}
+
+	public function press_this_extended_media(){
+		$html = '<input type="checkbox" id="press-this-extended-media" name="press-this-extended-media" value="1" ' . checked(1, get_option('press-this-extended-media'), false) . '/>';
+		$html .= '<label for="press-this-extended-media"> '  . __( 'Should Press This suggest media to add to a new post?', 'press-this-extended' ) . '</label>';
+		echo $html;
+	}
+
+	public function press_this_extended_text(){
+		$html = '<input type="checkbox" id="press-this-extended-text" name="press-this-extended-text" value="1" ' . checked(1, get_option('press-this-extended-text'), false) . '/>';
+		$html .= '<label for="press-this-extended-text"> '  . __( "Should Press This add a quote when you haven't selected text?", 'press-this-extended' ) . '</label>';
 		echo $html;
 	}
 
@@ -122,6 +146,15 @@ class Press_This_Extended {
 			add_filter( 'press_this_suggested_html', array( $this, 'execute_html'), 10, 2 );
 			add_filter( 'enable_press_this_media_discovery', '__return_false' ); // It did exist previously but virtually no one used it.
 		}
+	}
+
+	public function help_tab() {
+		get_current_screen()->add_help_tab( array(
+			'id'      => 'options-press-this-extended',
+			'title'   => __('Press This'),
+			'content' => '<p>' . __( 'Filler text. These options allow you to customize the Press This bookmarklet to do some cool stuff.' ) . '</p>',
+			)
+		);
 	}
 
 }
