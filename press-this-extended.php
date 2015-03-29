@@ -42,10 +42,16 @@ class Press_This_Extended {
 	 * @access public
 	 */
 	public function __construct() {
+		gloal $pagenow;
+
 		add_action( 'admin_init',               array( $this, 'load_translations' ) , 1 );
 		add_action( 'admin_init',               array( $this, 'add_settings' ) );
 		add_action( 'admin_init',               array( $this, 'execute' ) );
 		add_action( 'load-options-writing.php', array( $this, 'help_tab' ) );
+
+		if ( 'press-this.php' == $pagenow ) {
+			add_filter( 'http_headers_useragent', array( $this, 'ua_hack' ) ); // When WP is 5.3+, use anonymous function
+		}
 	}
 
 
@@ -155,6 +161,10 @@ class Press_This_Extended {
 			'content' => '<p>' . __( 'Filler text. These options allow you to customize the Press This bookmarklet to do some cool stuff.' ) . '</p>',
 			)
 		);
+	}
+
+	public function ua_hack() {
+		return 'WP Press This';
 	}
 
 }
