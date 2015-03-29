@@ -42,7 +42,7 @@ class Press_This_Extended {
 	 * @access public
 	 */
 	public function __construct() {
-		gloal $pagenow;
+		global $pagenow;
 
 		add_action( 'admin_init',               array( $this, 'load_translations' ) , 1 );
 		add_action( 'admin_init',               array( $this, 'add_settings' ) );
