@@ -154,6 +154,12 @@ class Press_This_Extended {
 		}
 	}
 
+	/**
+	 * Adds contextual help for Press This Extended options.
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 **/
 	public function help_tab() {
 		get_current_screen()->add_help_tab( array(
 			'id'      => 'options-press-this-extended',
@@ -163,6 +169,14 @@ class Press_This_Extended {
 		);
 	}
 
+	/**
+	 * Changes the UA on Press This scrapes to "WP Press This".
+	 *
+	 * Added since Medium and pehaps others block all requests with the UA of "WordPress" to stop pingback spam.
+	 *
+	 * @return string New UA string.
+	 * @since 1.0.0
+	 **/
 	public function ua_hack() {
 		return 'WP Press This';
 	}
