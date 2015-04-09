@@ -148,12 +148,25 @@ class Press_This_Extended {
 	 * @since 1.0.0
 	 **/
 	public function execute() {
-		$legacy = get_option( 'press-this-extended-legacy' );
+		$legacy          = get_option( 'press-this-extended-legacy' );
+		$text_discovery  = get_option( 'press-this-extended-text' );
+		$media_discovery = get_option( 'press-this-extended-media' );
 
 		if ( $legacy ) {
-			add_filter( 'press_this_suggested_html', array( $this, 'execute_html'), 10, 2 );
+			add_filter( 'press_this_suggested_html', array( $this, 'execute_html_legacy' ), 10, 2 );
+		}
+
+		if ( $legacy || ! $media_discovery ) {
 			add_filter( 'enable_press_this_media_discovery', '__return_false' ); // It did exist previously but virtually no one used it.
 		}
+
+		if ( ! $text_discovery ) {
+			add_filter( 'press_this_suggested_html', array( $this, 'execute_html' ), 10, 2 );
+		}
+
+		// add option and conditional for this
+		add_filter('wp_editor_settings', array( $this, 'enable_text_editor') );
+		add_action('admin_print_styles', array( $this, 'press_this_text_editor_style') );
 	}
 
 	/**
@@ -182,6 +195,16 @@ class Press_This_Extended {
 	public function ua_hack() {
 		return 'WP Press This';
 	}
+
+	public function press_this_text_editor_style(){
+		echo '<style type="text/css">textarea#pressthis {color: #404040;}.quicktags-toolbar {background: 0;}</style>';
+	}
+
+	public function enable_text_editor( $settings ){
+		$settings['quicktags'] = true;
+		return $settings;
+	}
+
 
 }
 
