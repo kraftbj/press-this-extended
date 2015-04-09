@@ -164,9 +164,10 @@ class Press_This_Extended {
 			add_filter( 'press_this_suggested_html', array( $this, 'execute_html' ), 10, 2 );
 		}
 
-		// add option and conditional for this
-		add_filter('wp_editor_settings', array( $this, 'enable_text_editor') );
-		add_action('admin_print_styles', array( $this, 'press_this_text_editor_style') );
+		if ( apply_filters('press_this_extended_code', false ) ){
+			add_filter('wp_editor_settings', array( $this, 'enable_text_editor' ) );
+			add_action('admin_print_styles', array( $this, 'press_this_text_editor_style' ) );
+		}
 	}
 
 	/**
