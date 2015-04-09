@@ -46,10 +46,10 @@ class Press_This_Extended {
 
 		add_action( 'admin_init',               array( $this, 'load_translations' ) , 1 );
 		add_action( 'admin_init',               array( $this, 'add_settings' ) );
-		add_action( 'admin_init',               array( $this, 'execute' ) );
 		add_action( 'load-options-writing.php', array( $this, 'help_tab' ) );
 
 		if ( 'press-this.php' == $pagenow ) {
+			add_action( 'admin_init',             array( $this, 'execute' ) );
 			add_filter( 'http_headers_useragent', array( $this, 'ua_hack' ) ); // When WP is 5.3+, use anonymous function
 		}
 	}
