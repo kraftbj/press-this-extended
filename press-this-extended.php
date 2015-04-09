@@ -118,23 +118,25 @@ class Press_This_Extended {
 		echo $html;
 	}
 
-	public function execute_html( $html, $data ){
-		$legacy = get_option( 'press-this-extended-legacy' );
-
-		if ( $legacy ) {
-			if ( isset( $data['s'] ) ){
-				$html = array(
-					'quote' => '<p>%1$s</p>',
-					'link'  => '<p>via <a href="%1$s">%2$s</a></p>',
-					);
-			}
-			else {
-				$html = array(
-					'quote' => '',
-					'link'  => '<a href="%1$s">%2$s</a>',
-					);
-			}
+	public function execute_html_legacy( $html, $data ){
+		if ( isset( $data['s'] ) ){
+			$html = array(
+				'quote' => '<p>%1$s</p>',
+				'link'  => '<p>via <a href="%1$s">%2$s</a></p>',
+				);
 		}
+		else {
+			$html = array(
+				'quote' => '',
+				'link'  => '<a href="%1$s">%2$s</a>',
+				);
+		}
+
+		return $html;
+	}
+
+	public function execute_html( $html, $data ){
+		// make magic happen
 
 		return $html;
 	}
