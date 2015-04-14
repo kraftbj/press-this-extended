@@ -90,6 +90,24 @@ class Press_This_Extended {
 		add_settings_field( $slug . '-text', __( 'Text Discovery', $slug ), array( $this, 'press_this_extended_text' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-text', 'intval' );
 		add_filter( 'default_option_' . $slug . '-text', '__return_true' );
+
+		add_settings_field( $slug . '-blockquote', __('Blockquote Wrapping', $slug), array( $this, 'press_this_extended_blockquote' ), 'writing', $slug );
+		register_setting( 'writing', $slug . '-blockquote', 'wp_kses_post' );
+		add_filter( 'default_option_' . $slug . '-blockquote', array( $this, 'default_blockquote' ) );
+
+		add_settings_field( $slug . '-citation', __('Citation Wrapping', $slug), array( $this, 'press_this_extended_citation' ), 'writing', $slug );
+		register_setting( 'writing', $slug . '-citation', 'wp_kses_post' );
+		add_filter( 'default_option_' . $slug . '-citation', array( $this, 'default_citation' ) );
+	}
+
+	public function default_blockquote() {
+		return '<blockquote>%1$s</blockquote>';
+	}
+
+	public function default_citation() {
+		$html = '<p>' . _x( 'Source:', 'Used in Press This to indicate where the content comes from.' ) .
+				' <em><a href="%1$s">%2$s</a></em></p>';
+		return $html;
 	}
 
 	/**
@@ -118,18 +136,42 @@ class Press_This_Extended {
 		echo $html;
 	}
 
+	public function press_this_extended_blockquote(){
+		$html = '<input type="text" id="press-this-extended-blockquote" name="press-this-extended-blockquote" value="' . esc_attr( get_option('press-this-extended-blockquote')) . '" class="regular-text ltr" />';
+		echo $html;
+	}
+
+	public function press_this_extended_citation(){
+		$html = '<input type="text" id="press-this-extended-citation" name="press-this-extended-citation" value="' . esc_attr( get_option('press-this-extended-citation')) . '" class="regular-text ltr" />';
+		echo $html;
+	}
+
 	public function execute_html( $html, $data ){
-		if ( isset( $data['s'] ) ){
-			$html = array(
-				'quote' => '<p>%1$s</p>',
-				'link'  => '<p>via <a href="%1$s">%2$s</a></p>',
-				);
+		$legacy = get_option( 'press-this-extended-legacy' );
+		$text_discovery  = get_option( 'press-this-extended-text' );
+
+		$html = array(
+				'quote' => get_option( 'press_this_extended_blockquote'),
+				'link'  => get_option( 'press-this-extended-citation'),
+			);
+
+		if ( $text_discovery == false && ! isset( $data['s'] ) ) {
+			$html['quote'] = '';
 		}
-		else {
-			$html = array(
-				'quote' => '',
-				'link'  => '<a href="%1$s">%2$s</a>',
-				);
+
+		if ( $legacy ) {
+			if ( isset( $data['s'] ) ){
+				$html = array(
+					'quote' => '<p>%1$s</p>',
+					'link'  => '<p>via <a href="%1$s">%2$s</a></p>',
+					);
+			}
+			else {
+				$html = array(
+					'quote' => '',
+					'link'  => '<a href="%1$s">%2$s</a>',
+					);
+			}
 		}
 
 		return $html;
@@ -146,22 +188,17 @@ class Press_This_Extended {
 		$text_discovery  = get_option( 'press-this-extended-text' );
 		$media_discovery = get_option( 'press-this-extended-media' );
 
-		if ( $legacy ) {
-			add_filter( 'press_this_suggested_html', array( $this, 'execute_html' ), 10, 2 );
-		}
-
 		if ( $legacy || ( $media_discovery == false ) ) {
 			add_filter( 'enable_press_this_media_discovery', '__return_false' ); // It did exist previously but virtually no one used it.
 		}
 
-		if ( $text_discovery == false ) {
-			add_filter( 'press_this_suggested_html', array( $this, 'execute_html' ), 10, 2 );
-		}
+		add_filter( 'press_this_suggested_html', array( $this, 'execute_html' ), 10, 2 );
 
 		if ( apply_filters('press_this_extended_code', false ) ){
 			add_filter('wp_editor_settings', array( $this, 'enable_text_editor' ) );
 			add_action('admin_print_styles', array( $this, 'press_this_text_editor_style' ) );
 		}
+
 	}
 
 	/**
