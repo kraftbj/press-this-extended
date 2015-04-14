@@ -114,11 +114,11 @@ class Press_This_Extended {
 
 	public function press_this_extended_text(){
 		$html = '<input type="checkbox" id="press-this-extended-text" name="press-this-extended-text" value="1" ' . checked(1, get_option('press-this-extended-text'), false) . '/>';
-		$html .= '<label for="press-this-extended-text"> '  . __( "Should Press This add a quote when you haven't selected text?", 'press-this-extended' ) . '</label>';
+		$html .= '<label for="press-this-extended-text"> '  . __( "Should Press This try to suggest a quote if you haven't preselected text?", 'press-this-extended' ) . '</label>';
 		echo $html;
 	}
 
-	public function execute_html_legacy( $html, $data ){
+	public function execute_html( $html, $data ){
 		if ( isset( $data['s'] ) ){
 			$html = array(
 				'quote' => '<p>%1$s</p>',
@@ -135,12 +135,6 @@ class Press_This_Extended {
 		return $html;
 	}
 
-	public function execute_html( $html, $data ){
-		// make magic happen
-
-		return $html;
-	}
-
 	/**
 	 * Execute the settings by adding the filters specified by the various settings.
 	 *
@@ -153,14 +147,14 @@ class Press_This_Extended {
 		$media_discovery = get_option( 'press-this-extended-media' );
 
 		if ( $legacy ) {
-			add_filter( 'press_this_suggested_html', array( $this, 'execute_html_legacy' ), 10, 2 );
+			add_filter( 'press_this_suggested_html', array( $this, 'execute_html' ), 10, 2 );
 		}
 
-		if ( $legacy || ! $media_discovery ) {
+		if ( $legacy || ( $media_discovery == false ) ) {
 			add_filter( 'enable_press_this_media_discovery', '__return_false' ); // It did exist previously but virtually no one used it.
 		}
 
-		if ( ! $text_discovery ) {
+		if ( $text_discovery == false ) {
 			add_filter( 'press_this_suggested_html', array( $this, 'execute_html' ), 10, 2 );
 		}
 
