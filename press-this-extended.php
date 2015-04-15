@@ -47,6 +47,7 @@ class Press_This_Extended {
 
 		add_action( 'admin_init',               array( $this, 'load_translations' ) , 1 );
 		add_action( 'admin_init',               array( $this, 'add_settings' ) );
+		add_action( 'admin_init',               array( $this, 'legacy_conversion') );
 		add_action( 'load-options-writing.php', array( $this, 'help_tab' ) );
 
 		if ( 'press-this.php' == $pagenow ) {
@@ -100,6 +101,29 @@ class Press_This_Extended {
 		add_settings_field( $slug . '-citation', __('Citation Wrapping', $slug), array( $this, 'press_this_extended_citation' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-citation', 'wp_kses_post' );
 		add_filter( 'default_option_' . $slug . '-citation', array( $this, 'default_citation' ) ); // When WP is 5.3+, use anonymous function
+	}
+
+	/**
+	 * Converts pre-release Legacy option to standard options and delete option.
+	 *
+	 * This will be left in for version 1 to clean up the few beta testers.
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 * @access public
+	 **/
+	public function legacy_conversion() {
+		$legacy = get_option( 'press-this-extended-legacy', 'nothing' ); // sets a default value if setting is not present in the DB. Can't use false since that is a valid setting state in the db.
+		if ( $legacy == true ) {
+			$citation = '<p>via <a href="%1$s">%2$s</a></p>';
+			update_option( 'press-this-extended-media', false );
+			update_option( 'press-this-extended-text', false );
+			update_option( 'press_this_extended_citation', $citation );
+			delete_option( 'press-this-extended-legacy' );
+		}
+		elseif ( $legacy == false ) {
+			delete_option( 'press-this-extended-legacy' );
+		}
 	}
 
 	/**
