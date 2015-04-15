@@ -200,6 +200,7 @@ class Press_This_Extended {
 	 **/
 	public function press_this_extended_blockquote(){
 		$html = '<input type="text" id="press-this-extended-blockquote" name="press-this-extended-blockquote" value="' . esc_attr( get_option('press-this-extended-blockquote')) . '" class="regular-text ltr" />';
+		$html .= '<p class="description">' . __( 'Use %1$s as a placeholder for the blockquote.', 'press-this-extended' ) .'</p>';
 		echo $html;
 	}
 
@@ -212,6 +213,7 @@ class Press_This_Extended {
 	 **/
 	public function press_this_extended_citation(){
 		$html = '<input type="text" id="press-this-extended-citation" name="press-this-extended-citation" value="' . esc_attr( get_option('press-this-extended-citation')) . '" class="regular-text ltr" />';
+		$html .= '<p class="description">' . __( 'Use %1$s and %2$s as a placeholders for the page URL and title, respectively.', 'press-this-extended' ) .'</p>';
 		echo $html;
 	}
 
