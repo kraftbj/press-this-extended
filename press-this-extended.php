@@ -39,6 +39,7 @@ class Press_This_Extended {
 	 * Sets the cruise control at 88 MPH. In other words, let's fire the engines
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 * @access public
 	 */
 	public function __construct() {
@@ -59,6 +60,7 @@ class Press_This_Extended {
  	 * Load the textdomain / translations for the plugin.
  	 *
  	 * @since 1.0.0
+ 	 * @return void
  	 */
 	public function load_translations() {
 		$domain = 'press-this-extended';
@@ -93,17 +95,32 @@ class Press_This_Extended {
 
 		add_settings_field( $slug . '-blockquote', __('Blockquote Wrapping', $slug), array( $this, 'press_this_extended_blockquote' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-blockquote', 'wp_kses_post' );
-		add_filter( 'default_option_' . $slug . '-blockquote', array( $this, 'default_blockquote' ) );
+		add_filter( 'default_option_' . $slug . '-blockquote', array( $this, 'default_blockquote' ) ); // When WP is 5.3+, use anonymous function
 
 		add_settings_field( $slug . '-citation', __('Citation Wrapping', $slug), array( $this, 'press_this_extended_citation' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-citation', 'wp_kses_post' );
-		add_filter( 'default_option_' . $slug . '-citation', array( $this, 'default_citation' ) );
+		add_filter( 'default_option_' . $slug . '-citation', array( $this, 'default_citation' ) ); // When WP is 5.3+, use anonymous function
 	}
 
+	/**
+	 * Returns the default blockquote wrapper original to Press This
+	 *
+	 * @return string Default blockquote wrapping with %1$s being the variable for the quote.
+	 * @since 1.0.0
+	 * @access public
+	 **/
 	public function default_blockquote() {
 		return '<blockquote>%1$s</blockquote>';
 	}
 
+	/**
+	 * Returns the default citation or "source" wrapper original to Press This.
+	 *
+	 * The default's use of "Source" is translated natively in WordPress Core, so no plugin language domain is indicated
+	 * @return string Default source wrapping with %1$s representing the URL and %2$s the pressed page's title.
+	 * @since 1.0.0
+	 * @access public
+	 **/
 	public function default_citation() {
 		$html = '<p>' . _x( 'Source:', 'Used in Press This to indicate where the content comes from.' ) .
 				' <em><a href="%1$s">%2$s</a></em></p>';
@@ -111,7 +128,7 @@ class Press_This_Extended {
 	}
 
 	/**
-	 * Echos HTML for the Legacy option form field.
+	 * Echos HTML for the Legacy option setting form field.
 	 *
 	 * @return void
 	 * @since 1.0.0
@@ -124,28 +141,66 @@ class Press_This_Extended {
 		echo $html;
 	}
 
+	/**
+	 * Echos the Media Discovery setting form field
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 * @access public
+	 **/
 	public function press_this_extended_media(){
 		$html = '<input type="checkbox" id="press-this-extended-media" name="press-this-extended-media" value="1" ' . checked(1, get_option('press-this-extended-media'), false) . '/>';
 		$html .= '<label for="press-this-extended-media"> '  . __( 'Should Press This suggest media to add to a new post?', 'press-this-extended' ) . '</label>';
 		echo $html;
 	}
 
+	/**
+	 * Echos the Text Discovery setting form field
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 * @access public
+	 **/
 	public function press_this_extended_text(){
 		$html = '<input type="checkbox" id="press-this-extended-text" name="press-this-extended-text" value="1" ' . checked(1, get_option('press-this-extended-text'), false) . '/>';
 		$html .= '<label for="press-this-extended-text"> '  . __( "Should Press This try to suggest a quote if you haven't preselected text?", 'press-this-extended' ) . '</label>';
 		echo $html;
 	}
 
+	/**
+	 * Echos the Blockquote wrapper setting form field
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 * @access public
+	 **/
 	public function press_this_extended_blockquote(){
 		$html = '<input type="text" id="press-this-extended-blockquote" name="press-this-extended-blockquote" value="' . esc_attr( get_option('press-this-extended-blockquote')) . '" class="regular-text ltr" />';
 		echo $html;
 	}
 
+	/**
+	 * Echos the Citation wrapper setting form field
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 * @access public
+	 **/
 	public function press_this_extended_citation(){
 		$html = '<input type="text" id="press-this-extended-citation" name="press-this-extended-citation" value="' . esc_attr( get_option('press-this-extended-citation')) . '" class="regular-text ltr" />';
 		echo $html;
 	}
 
+	/**
+	 * Used when filtering the default html from Press This based on the various options set in Press This Extended.
+	 *
+	 * @return array $html {
+	 *		@type string $quote Blockquote wrapping with placeholder %1$s for the quoted text.
+	 *		@type string $link  Citation wrapping with placeholders %1$s and %2$s for Pressed URL and page title, respectively.
+	 * }
+	 * @since 1.0.0
+	 * @access public
+	 **/
 	public function execute_html( $html, $data ){
 		$legacy = get_option( 'press-this-extended-legacy' );
 		$text_discovery  = get_option( 'press-this-extended-text' );
@@ -182,6 +237,7 @@ class Press_This_Extended {
 	 *
 	 * @return void
 	 * @since 1.0.0
+	 * @access public
 	 **/
 	public function execute() {
 		$legacy          = get_option( 'press-this-extended-legacy' );
@@ -206,6 +262,7 @@ class Press_This_Extended {
 	 *
 	 * @return void
 	 * @since 1.0.0
+	 * @access public
 	 **/
 	public function help_tab() {
 		get_current_screen()->add_help_tab( array(
@@ -223,21 +280,40 @@ class Press_This_Extended {
 	 *
 	 * @return string New UA string.
 	 * @since 1.0.0
+	 * @access public
 	 **/
 	public function ua_hack() {
 		return 'WP Press This';
 	}
 
+	/**
+	 * Adds inline styling to the Press This page via admin_print_styles hook for the text editor.
+	 *
+	 *
+	 * @return void
+	 * @see 'admin_print_styles'
+	 * @since 1.0.0
+	 * @access public
+	 **/
 	public function press_this_text_editor_style(){
 		echo '<style type="text/css">textarea#pressthis {color: #404040;}.quicktags-toolbar {background: 0;}</style>';
 	}
 
+	/**
+	 * Enables the "quicktags" option in TinyMCE to flip between Visual and Text editors.
+	 *
+	 * Filter will retain all current TinyMCE settings except forcing the Visual/Text editor.
+	 * @return array $settings {
+	 *		@type bool $quicktags Enables Visual/Text Editor buttons in TinyMCE
+	 * }
+	 * @since 1.0.0
+	 * @access public
+	 **/
 	public function enable_text_editor( $settings ){
 		$settings['quicktags'] = true;
 		return $settings;
 	}
-
-
 }
 
+// Giddy up.
 $Press_This_Extended = new Press_This_Extended;
