@@ -86,11 +86,11 @@ class Press_This_Extended {
 		register_setting( 'writing', $slug . '-legacy', 'intval' );
 		add_filter( 'default_option_' . $slug . '-legacy', '__return_false' ); */
 
-		add_settings_field( $slug . '-media', __( 'Media Discovery', $slug ), array( $this, 'press_this_extended_media' ), 'writing', $slug );
+		add_settings_field( $slug . '-media', __( 'Content Discovery', $slug ), array( $this, 'press_this_extended_media' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-media', 'intval' );
 		add_filter( 'default_option_'. $slug . '-media', '__return_true' );
 
-		add_settings_field( $slug . '-text', __( 'Text Discovery', $slug ), array( $this, 'press_this_extended_text' ), 'writing', $slug );
+		add_settings_field( $slug . '-text', null, array( $this, 'press_this_extended_text' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-text', 'intval' );
 		add_filter( 'default_option_' . $slug . '-text', '__return_true' );
 
