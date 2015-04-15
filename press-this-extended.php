@@ -81,9 +81,9 @@ class Press_This_Extended {
 
 		add_settings_section( $slug, 'Press This', null, 'writing');
 
-		add_settings_field( $slug . '-legacy', __( 'Legacy Mode', $slug ), array( $this, 'press_this_extended_legacy' ), 'writing', $slug );
+		/*add_settings_field( $slug . '-legacy', __( 'Legacy Mode', $slug ), array( $this, 'press_this_extended_legacy' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-legacy', 'intval' );
-		add_filter( 'default_option_' . $slug . '-legacy', '__return_false' );
+		add_filter( 'default_option_' . $slug . '-legacy', '__return_false' ); */
 
 		add_settings_field( $slug . '-media', __( 'Media Discovery', $slug ), array( $this, 'press_this_extended_media' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-media', 'intval' );
@@ -134,12 +134,12 @@ class Press_This_Extended {
 	 * @since 1.0.0
 	 * @access public
 	 **/
-	public function press_this_extended_legacy() {
+	/*public function press_this_extended_legacy() {
 		$html = '<input type="checkbox" id="press-this-extended-legacy" name="press-this-extended-legacy" value="1" ' . checked(1, get_option('press-this-extended-legacy'), false) . '/>';
 		$html .= '<label for="press-this-extended-legacy"> '  . __( 'Have Press This mimic behavior prior to WordPress 4.2', 'press-this-extended' ) . '</label>';
 
 		echo $html;
-	}
+	}*/
 
 	/**
 	 * Echos the Media Discovery setting form field
@@ -214,7 +214,7 @@ class Press_This_Extended {
 			$html['quote'] = '';
 		}
 
-		if ( $legacy ) {
+		/*if ( $legacy ) {
 			if ( isset( $data['s'] ) ){
 				$html = array(
 					'quote' => '<p>%1$s</p>',
@@ -226,7 +226,7 @@ class Press_This_Extended {
 					'quote' => '',
 					'link'  => '<a href="%1$s">%2$s</a>',
 					);
-			}
+			}*/
 		}
 
 		return $html;
@@ -240,12 +240,12 @@ class Press_This_Extended {
 	 * @access public
 	 **/
 	public function execute() {
-		$legacy          = get_option( 'press-this-extended-legacy' );
+		//$legacy          = get_option( 'press-this-extended-legacy' );
 		$text_discovery  = get_option( 'press-this-extended-text' );
 		$media_discovery = get_option( 'press-this-extended-media' );
 
-		if ( $legacy || ( $media_discovery == false ) ) {
-			add_filter( 'enable_press_this_media_discovery', '__return_false' ); // It did exist previously but virtually no one used it.
+		if ( /*$legacy || ( */$media_discovery == false ) /*)*/ {
+			add_filter( 'enable_press_this_media_discovery', '__return_false' );
 		}
 
 		add_filter( 'press_this_suggested_html', array( $this, 'execute_html' ), 10, 2 );
