@@ -202,7 +202,7 @@ class Press_This_Extended {
 	 * @access public
 	 **/
 	public function execute_html( $html, $data ){
-		$legacy = get_option( 'press-this-extended-legacy' );
+		//$legacy = get_option( 'press-this-extended-legacy' );
 		$text_discovery  = get_option( 'press-this-extended-text' );
 
 		$html = array(
