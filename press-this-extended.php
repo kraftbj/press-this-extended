@@ -250,8 +250,8 @@ class Press_This_Extended {
 					'quote' => '',
 					'link'  => '<a href="%1$s">%2$s</a>',
 					);
-			}*/
-		}
+			}
+		}*/
 
 		return $html;
 	}
