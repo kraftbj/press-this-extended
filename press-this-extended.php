@@ -118,7 +118,7 @@ class Press_This_Extended {
 	 **/
 	public function legacy_conversion() {
 		$legacy = get_option( 'press-this-extended-legacy', 'nothing' ); // sets a default value if setting is not present in the DB. Can't use false since that is a valid setting state in the db.
-		if ( $legacy == true ) {
+		if ( $legacy == 1 ) {
 			$citation = '<p>via <a href="%1$s">%2$s</a></p>';
 			update_option( 'press-this-extended-media', false );
 			update_option( 'press-this-extended-text', false );
