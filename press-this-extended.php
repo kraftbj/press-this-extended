@@ -82,27 +82,27 @@ class Press_This_Extended {
 
 		add_settings_section( $slug, 'Press This', null, 'writing');
 
-		add_settings_field( $slug . '-media', __( 'Content Discovery', $slug ), array( $this, 'press_this_extended_media' ), 'writing', $slug );
+		add_settings_field( $slug . '-media', __( 'Content Discovery', $slug ), array( $this, 'setting_media' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-media', 'intval' );
 		add_filter( 'default_option_'. $slug . '-media', '__return_true' );
 
-		add_settings_field( $slug . '-text', null, array( $this, 'press_this_extended_text' ), 'writing', $slug );
+		add_settings_field( $slug . '-text', null, array( $this, 'setting_text' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-text', 'intval' );
 		add_filter( 'default_option_' . $slug . '-text', '__return_true' );
 
-		add_settings_field( $slug . '-blockquote', __('Blockquote Wrapping', $slug), array( $this, 'press_this_extended_blockquote' ), 'writing', $slug );
+		add_settings_field( $slug . '-blockquote', __('Blockquote Wrapping', $slug), array( $this, 'setting_blockquote' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-blockquote', 'wp_kses_post' );
 		add_filter( 'default_option_' . $slug . '-blockquote', array( $this, 'default_blockquote' ) ); // When WP is 5.3+, use anonymous function
 
-		add_settings_field( $slug . '-citation', __('Citation Wrapping', $slug), array( $this, 'press_this_extended_citation' ), 'writing', $slug );
+		add_settings_field( $slug . '-citation', __('Citation Wrapping', $slug), array( $this, 'setting_citation' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-citation', 'wp_kses_post' );
 		add_filter( 'default_option_' . $slug . '-citation', array( $this, 'default_citation' ) ); // When WP is 5.3+, use anonymous function
 
-		add_settings_field( $slug . '-parent', __('Redirection', $slug), array( $this, 'press_this_extended_parent' ), 'writing', $slug );
+		add_settings_field( $slug . '-parent', __('Redirection', $slug), array( $this, 'setting_parent' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-parent', 'intval' );
 		add_filter( 'default_option_' . $slug . '-parent', '__return_false' );
 
-		add_settings_field( $slug . '-editor', __('Text Editor', $slug), array( $this, 'press_this_extended_editor' ), 'writing', $slug );
+		add_settings_field( $slug . '-editor', __('Text Editor', $slug), array( $this, 'setting_editor' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-editor', 'intval' );
 		add_filter( 'default_option_' . $slug . '-editor', '__return_false' );
 	}
@@ -162,7 +162,7 @@ class Press_This_Extended {
 	 * @since 1.0.0
 	 * @access public
 	 **/
-	public function press_this_extended_media(){
+	public function setting_media(){
 		$html = '<input type="checkbox" id="press-this-extended-media" name="press-this-extended-media" value="1" ' . checked(1, get_option('press-this-extended-media'), false) . '/>';
 		$html .= '<label for="press-this-extended-media"> '  . __( 'Should Press This suggest media to add to a new post?', 'press-this-extended' ) . '</label>';
 		echo $html;
@@ -175,7 +175,7 @@ class Press_This_Extended {
 	 * @since 1.0.0
 	 * @access public
 	 **/
-	public function press_this_extended_text(){
+	public function setting_text(){
 		$html = '<input type="checkbox" id="press-this-extended-text" name="press-this-extended-text" value="1" ' . checked(1, get_option('press-this-extended-text'), false) . '/>';
 		$html .= '<label for="press-this-extended-text"> '  . __( "Should Press This try to suggest a quote if you haven't preselected text?", 'press-this-extended' ) . '</label>';
 		echo $html;
@@ -188,7 +188,7 @@ class Press_This_Extended {
 	 * @since 1.0.0
 	 * @access public
 	 **/
-	public function press_this_extended_blockquote(){
+	public function setting_blockquote(){
 		$html = '<input type="text" id="press-this-extended-blockquote" name="press-this-extended-blockquote" value="' . esc_attr( get_option('press-this-extended-blockquote')) . '" class="regular-text ltr" />';
 		$html .= '<p class="description">' . __( 'Use %1$s as a placeholder for the blockquote.', 'press-this-extended' ) .'</p>';
 		echo $html;
@@ -201,7 +201,7 @@ class Press_This_Extended {
 	 * @since 1.0.0
 	 * @access public
 	 **/
-	public function press_this_extended_citation(){
+	public function setting_citation(){
 		$html = '<input type="text" id="press-this-extended-citation" name="press-this-extended-citation" value="' . esc_attr( get_option('press-this-extended-citation')) . '" class="regular-text ltr" />';
 		$html .= '<p class="description">' . __( 'Use %1$s and %2$s as a placeholders for the page URL and title, respectively.', 'press-this-extended' ) .'</p>';
 		echo $html;
@@ -214,7 +214,7 @@ class Press_This_Extended {
 	 * @since 1.0.0
 	 * @access public
 	 **/
-	public function press_this_extended_parent() {
+	public function setting_parent() {
 		$html = '<input type="checkbox" id="press-this-extended-parent" name="press-this-extended-parent" value="1" ' . checked(1, get_option('press-this-extended-parent'), false) . '/>';
 		$html .= '<label for="press-this-extended-parent"> '  . __( 'Upon publish, redirect the Pressed page to your site.', 'press-this-extended' ) . '</label>';
 
@@ -228,7 +228,7 @@ class Press_This_Extended {
 	 * @since 1.0.0
 	 * @access public
 	 **/
-	public function press_this_extended_editor() {
+	public function setting_editor() {
 		$html = '<input type="checkbox" id="press-this-extended-editor" name="press-this-extended-editor" value="1" ' . checked(1, get_option('press-this-extended-editor'), false) . '/>';
 		$html .= '<label for="press-this-extended-editor"> '  . __( 'Enable the Text Editor in Press This', 'press-this-extended' ) . '</label>';
 		$html .= '<p class="description">' . __( 'Experimental! This is not fully operational yet. Inserting detected media will not work in the Text Editor. The "Save Draft" button will not reappear until you focus within the Visual Editor.<br />There be dragons! Your milage may vary. No warranty implied or stated!', 'press-this-extended' ) .'</p>';
@@ -297,7 +297,7 @@ class Press_This_Extended {
 
 		if ( $text_editor ) {
 			add_filter('wp_editor_settings', array( $this, 'enable_text_editor' ) );
-			add_action('admin_print_styles', array( $this, 'press_this_text_editor_style' ) );
+			add_action('admin_print_styles', array( $this, 'text_editor_style' ) );
 		}
 
 		if ( $redirect_parent ) {
@@ -344,7 +344,7 @@ class Press_This_Extended {
 	 * @since 1.0.0
 	 * @access public
 	 **/
-	public function press_this_text_editor_style(){
+	public function text_editor_style(){
 		echo '<style type="text/css">textarea#pressthis {color: #404040;}.quicktags-toolbar {background: 0;}</style>';
 	}
 
