@@ -122,7 +122,7 @@ class Press_This_Extended {
 			$citation = '<p>via <a href="%1$s">%2$s</a></p>';
 			update_option( 'press-this-extended-media', false );
 			update_option( 'press-this-extended-text', false );
-			update_option( 'press_this_extended_citation', $citation );
+			update_option( 'press-this-extended-citation', $citation );
 			delete_option( 'press-this-extended-legacy' );
 		}
 		elseif ( $legacy == false ) {
