@@ -101,6 +101,10 @@ class Press_This_Extended {
 		add_settings_field( $slug . '-parent', __('Redirection', $slug), array( $this, 'press_this_extended_parent' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-parent', 'intval' );
 		add_filter( 'default_option_' . $slug . '-parent', '__return_false' );
+
+		add_settings_field( $slug . '-editor', __('Text Editor', $slug), array( $this, 'press_this_extended_editor' ), 'writing', $slug );
+		register_setting( 'writing', $slug . '-editor', 'intval' );
+		add_filter( 'default_option_' . $slug . '-editor', '__return_false' );
 	}
 
 	/**
