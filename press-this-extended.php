@@ -101,6 +101,10 @@ class Press_This_Extended {
 		add_settings_field( $slug . '-citation', __('Citation Wrapping', $slug), array( $this, 'press_this_extended_citation' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-citation', 'wp_kses_post' );
 		add_filter( 'default_option_' . $slug . '-citation', array( $this, 'default_citation' ) ); // When WP is 5.3+, use anonymous function
+
+		add_settings_field( $slug . '-parent', __('Redirection', $slug), array( $this, 'press_this_extended_parent' ), 'writing', $slug );
+		register_setting( 'writing', $slug . '-parent', 'intval' );
+		add_filter( 'default_option_' . $slug . '-parent', '__return_false' );
 	}
 
 	/**
@@ -218,6 +222,20 @@ class Press_This_Extended {
 	}
 
 	/**
+	 * Echos HTML for the Parent Redirection option setting form field.
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 * @access public
+	 **/
+	public function press_this_extended_parent() {
+		$html = '<input type="checkbox" id="press-this-extended-parent" name="press-this-extended-parent" value="1" ' . checked(1, get_option('press-this-extended-parent'), false) . '/>';
+		$html .= '<label for="press-this-extended-parent"> '  . __( 'Upon publish, redirect the Pressed page to your site.', 'press-this-extended' ) . '</label>';
+
+		echo $html;
+	}
+
+	/**
 	 * Used when filtering the default html from Press This based on the various options set in Press This Extended.
 	 *
 	 * @return array $html {
@@ -269,6 +287,7 @@ class Press_This_Extended {
 		//$legacy          = get_option( 'press-this-extended-legacy' );
 		$text_discovery  = get_option( 'press-this-extended-text' );
 		$media_discovery = get_option( 'press-this-extended-media' );
+		$redirect_parent = get_option( 'press-this-extended-parent' );
 
 		if ( /*$legacy || ( */$media_discovery == false ) /*)*/ {
 			add_filter( 'enable_press_this_media_discovery', '__return_false' );
@@ -279,6 +298,10 @@ class Press_This_Extended {
 		if ( apply_filters('press_this_extended_code', false ) ){
 			add_filter('wp_editor_settings', array( $this, 'enable_text_editor' ) );
 			add_action('admin_print_styles', array( $this, 'press_this_text_editor_style' ) );
+		}
+
+		if ( $redirect_parent ) {
+			add_filter( 'press_this_redirect_in_parent', '__return_true' );
 		}
 
 	}
