@@ -236,6 +236,20 @@ class Press_This_Extended {
 	}
 
 	/**
+	 * Echos HTML for the Code Editor option setting form field.
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 * @access public
+	 **/
+	public function press_this_extended_editor() {
+		$html = '<input type="checkbox" id="press-this-extended-editor" name="press-this-extended-editor" value="1" ' . checked(1, get_option('press-this-extended-editor'), false) . '/>';
+		$html .= '<label for="press-this-extended-editor"> '  . __( 'Enable the Text Editor in Press This', 'press-this-extended' ) . '</label>';
+		$html .= '<p class="description">' . __( 'Experimental! This is not fully operational yet. Inserting detected media will not work in the Text Editor. The "Save Draft" button will not reappear until you focus within the Visual Editor.<br />There be dragons! Your milage may vary. No warranty implied or stated!', 'press-this-extended' ) .'</p>';
+		echo $html;
+	}
+
+	/**
 	 * Used when filtering the default html from Press This based on the various options set in Press This Extended.
 	 *
 	 * @return array $html {
