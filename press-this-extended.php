@@ -309,7 +309,7 @@ class Press_This_Extended {
 		$text_discovery  = get_option( 'press-this-extended-text' );
 		$media_discovery = get_option( 'press-this-extended-media' );
 		$redirect_parent = get_option( 'press-this-extended-parent' );
-		$text_editor     = get_option( 'press-this-extended-editor');
+		$text_editor     = get_option( 'press-this-extended-editor' );
 
 		if ( $media_discovery == false ) {
 			add_filter( 'enable_press_this_media_discovery', '__return_false' );
