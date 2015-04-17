@@ -106,6 +106,10 @@ class Press_This_Extended {
 		register_setting( 'writing', $slug . '-parent', 'intval' );
 		add_filter( 'default_option_' . $slug . '-parent', '__return_false' );
 
+		add_settings_field( $slug . '-publish', null, array( $this, 'setting_publish' ), 'writing', $slug );
+		register_setting( 'writing', $slug . '-publish', 'intval' );
+		add_filter( 'default_option_' . $slug . '-publish', '__return_false' );
+
 		add_settings_field( $slug . '-editor', __('Text Editor', $slug), array( $this, 'setting_editor' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-editor', 'intval' );
 		add_filter( 'default_option_' . $slug . '-editor', '__return_false' );
@@ -220,7 +224,21 @@ class Press_This_Extended {
 	 **/
 	public function setting_parent() {
 		$html = '<input type="checkbox" id="press-this-extended-parent" name="press-this-extended-parent" value="1" ' . checked(1, get_option('press-this-extended-parent'), false) . '/>';
-		$html .= '<label for="press-this-extended-parent"> '  . __( 'Upon publish, redirect the Pressed page to your site.', 'press-this-extended' ) . '</label>';
+		$html .= '<label for="press-this-extended-parent"> '  . __( 'Upon publish, close the Press This popup and redirect the original tab.', 'press-this-extended' ) . '</label>';
+
+		echo $html;
+	}
+
+	/**
+	 * Echos HTML for the Parent Redirection option setting form field.
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 * @access public
+	 **/
+	public function setting_publish() {
+		$html = '<input type="checkbox" id="press-this-extended-publish" name="press-this-extended-publish" value="1" ' . checked(1, get_option('press-this-extended-publish'), false) . '/>';
+		$html .= '<label for="press-this-extended-publish"> '  . __( 'Upon publish, redirect to the regular Post Edit page.', 'press-this-extended' ) . '</label>';
 
 		echo $html;
 	}
