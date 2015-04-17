@@ -317,10 +317,26 @@ class Press_This_Extended {
 	 * @access public
 	 **/
 	public function execute_ajax() {
-
+		add_filter( 'press_this_save_redirect', array( $this, 'redirect_publish'), 10, 3 );
 	}
 
+	/**
+	 * Determines the redirected URL upon publishing a Press This post.
+	 *
+	 * This could be expanded in the future to do other fun things.
+	 *
+	 * @return URL of redirectoin
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function redirect_publish( $redirect, $post_id, $post_status ) {
+		$redirect_publish = get_option( 'press-this-extended-publish' );
 
+		if ( $redirect_publish ) {
+			$redirect = get_edit_post_link( $post_id, 'raw' );
+		}
+
+		return $redirect;
 	}
 
 	/**
