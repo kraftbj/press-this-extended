@@ -54,6 +54,10 @@ class Press_This_Extended {
 			add_action( 'admin_init',             array( $this, 'execute' ) );
 			add_filter( 'http_headers_useragent', array( $this, 'ua_hack' ) ); // When WP is 5.3+, use anonymous function
 		}
+
+		if ( 'admin-ajax.php' == $pagenow ) {
+			add_action( 'admin_init', array( $this, 'execute_ajax' ) ); // This filter is the only one used exclusively within the ajax context.
+		}
 	}
 
 
@@ -303,6 +307,19 @@ class Press_This_Extended {
 		if ( $redirect_parent ) {
 			add_filter( 'press_this_redirect_in_parent', '__return_true' );
 		}
+	}
+
+	/**
+	 * Execute filters only used in the AJAX context.
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 * @access public
+	 **/
+	public function execute_ajax() {
+
+	}
+
 
 	}
 
