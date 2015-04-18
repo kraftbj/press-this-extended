@@ -38,6 +38,8 @@ class Press_This_Extended {
 	/**
 	 * Sets the cruise control at 88 MPH. In other words, let's fire the engines
 	 *
+	 * Selectively adding hooks based on need so we don't cross streams resulting in every molecule in our bodies exploding.
+	 *
 	 * @since 1.0.0
 	 * @return void
 	 * @access public
@@ -45,18 +47,18 @@ class Press_This_Extended {
 	public function __construct() {
 		global $pagenow;
 
-		add_action( 'admin_init',               array( $this, 'load_translations' ) , 1 );
+		add_action( 'admin_init',               array( $this, 'load_translations' ) , 1 ); // These filters are generally used within wp-admin.
 		add_action( 'admin_init',               array( $this, 'add_settings' ) );
 		add_action( 'admin_init',               array( $this, 'legacy_conversion') );
 		add_action( 'load-options-writing.php', array( $this, 'help_tab' ) );
 
-		if ( 'press-this.php' == $pagenow ) {
+		if ( 'press-this.php' == $pagenow ) { // Only needed when Press This is loaded.
 			add_action( 'admin_init',             array( $this, 'execute' ) );
-			add_filter( 'http_headers_useragent', array( $this, 'ua_hack' ) ); // When WP is 5.3+, use anonymous function
+			add_filter( 'http_headers_useragent', array( $this, 'ua_hack' ) ); // When WP is 5.3+, use anonymous function.
 		}
 
-		if ( 'admin-ajax.php' == $pagenow ) {
-			add_action( 'admin_init', array( $this, 'execute_ajax' ) ); // This filter is the only one used exclusively within the ajax context.
+		if ( 'admin-ajax.php' == $pagenow ) { // These hooks are the only one used exclusively within the ajax context.
+			add_action( 'admin_init', array( $this, 'execute_ajax' ) );
 		}
 	}
 
@@ -153,6 +155,7 @@ class Press_This_Extended {
 	 * Returns the default citation or "source" wrapper original to Press This.
 	 *
 	 * The default's use of "Source" is translated natively in WordPress Core, so no plugin language domain is indicated
+	 *
 	 * @return string Default source wrapping with %1$s representing the URL and %2$s the pressed page's title.
 	 * @since 1.0.0
 	 * @access public
