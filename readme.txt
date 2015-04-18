@@ -14,6 +14,8 @@ The new Press This in WordPress 4.2 includes new options that can be modified vi
 
 The new Press This in WordPress 4.2 includes new options that can be modified via code. Or via this plugin.
 
+Development is taking place at https://github.com/kraftbj/press-this-extended
+
 == Installation ==
 
 Via your site's wp-admin Dashboard:
