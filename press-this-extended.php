@@ -98,23 +98,42 @@ class Press_This_Extended {
 
 		add_settings_field( $slug . '-blockquote', __('Blockquote Wrapping', $slug), array( $this, 'setting_blockquote' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-blockquote', 'wp_kses_post' );
-		add_filter( 'default_option_' . $slug . '-blockquote', array( $this, 'default_blockquote' ) ); // When WP is 5.3+, use anonymous function
+		add_filter( 'default_option_' . $slug . '-blockquote', array( $this, 'default_blockquote' ) ); // When WP is 5.3+, use anonymous function.
 
 		add_settings_field( $slug . '-citation', __('Citation Wrapping', $slug), array( $this, 'setting_citation' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-citation', 'wp_kses_post' );
-		add_filter( 'default_option_' . $slug . '-citation', array( $this, 'default_citation' ) ); // When WP is 5.3+, use anonymous function
+		add_filter( 'default_option_' . $slug . '-citation', array( $this, 'default_citation' ) ); // When WP is 5.3+, use anonymous function.
 
 		add_settings_field( $slug . '-parent', __('Redirection', $slug), array( $this, 'setting_parent' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-parent', 'intval' );
 		add_filter( 'default_option_' . $slug . '-parent', '__return_false' );
 
-		add_settings_field( $slug . '-publish', null, array( $this, 'setting_publish' ), 'writing', $slug );
-		register_setting( 'writing', $slug . '-publish', 'intval' );
-		add_filter( 'default_option_' . $slug . '-publish', '__return_false' );
+		add_settings_field( $slug . '-save-publish', __( 'Upon Publishing...', 'press-this-extended' ), array( $this, 'setting_save_publish' ), 'writing', $slug );
+		register_setting( 'writing', $slug . '-save-publish', array( $this, 'save_sanitize' ) );
+		add_filter( 'default_option_' . $slug . '-save-publish', array( $this, 'default_publish' ) );
+
+		add_settings_field( $slug . '-save-draft', __( 'Upon Saving a Draft...', 'press-this-extended' ), array( $this, 'setting_save_draft' ), 'writing', $slug );
+		register_setting( 'writing', $slug . '-save-draft', array( $this, 'save_sanitize' ) );
+		add_filter( 'default_option_' . $slug . '-save-draft', array( $this, 'default_save' ) );
 
 		add_settings_field( $slug . '-editor', __('Text Editor', $slug), array( $this, 'setting_editor' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-editor', 'intval' );
 		add_filter( 'default_option_' . $slug . '-editor', '__return_false' );
+	}
+
+
+	/**
+	 * Santizes setting options for save_publish and save_draft settings.
+	 *
+	 * @return string Either 'pt', 'permalink', 'editor'. Defaults to 'editor' if validation fails.
+	 * @since 1.0.0
+	 **/
+	function save_sanitize( $value ) {
+		if ( $value != 'permalink' && $value != 'pt' ) {
+			$value = 'editor';
+		}
+
+		return $value;
 	}
 
 	/**
@@ -164,6 +183,28 @@ class Press_This_Extended {
 		$html = '<p>' . _x( 'Source:', 'Used in Press This to indicate where the content comes from.' ) .
 				' <em><a href="%1$s">%2$s</a></em></p>';
 		return $html;
+	}
+
+	/**
+	 * Returns the default value for saving a draft.
+	 *
+	 * @return string Default draft redirect location.
+	 * @since 1.0.0
+	 * @access public
+	 **/
+	public function default_save() {
+		return 'pt';
+	}
+
+	/**
+	 * Returns the default value for publishing a post.
+	 *
+	 * @return string Default publish redirect location.
+	 * @since 1.0.0
+	 * @access public
+	 **/
+	public function default_publish() {
+		return 'permalink';
 	}
 
 	/**
@@ -227,23 +268,74 @@ class Press_This_Extended {
 	 **/
 	public function setting_parent() {
 		$html = '<input type="checkbox" id="press-this-extended-parent" name="press-this-extended-parent" value="1" ' . checked(1, get_option('press-this-extended-parent'), false) . '/>';
-		$html .= '<label for="press-this-extended-parent"> '  . __( 'Upon publish, close the Press This popup and redirect the original tab.', 'press-this-extended' ) . '</label>';
+		$html .= '<label for="press-this-extended-parent"> '  . __( 'Upon publishing or saving a draft, close the Press This popup and redirect the original tab.', 'press-this-extended' ) . '</label>';
 
 		echo $html;
 	}
 
 	/**
-	 * Echos HTML for the Parent Redirection option setting form field.
+	 * Echos HTML for the selecting redirect when publishing a post.
 	 *
 	 * @return void
 	 * @since 1.0.0
 	 * @access public
 	 **/
-	public function setting_publish() {
-		$html = '<input type="checkbox" id="press-this-extended-publish" name="press-this-extended-publish" value="1" ' . checked(1, get_option('press-this-extended-publish'), false) . '/>';
-		$html .= '<label for="press-this-extended-publish"> '  . __( 'Upon publish, redirect to the regular Post Edit page.', 'press-this-extended' ) . '</label>';
+	public function setting_save_publish() {
+		$options = array(
+			'permalink' => __( 'Published Post', 'press-this-extended' ),
+			'editor'    => __( 'Standard Editor' ),
+		);
 
-		echo $html;
+		$extra_text = __( 'After publishing a post, you will be redirected to this location.', 'press-this-extended' );
+
+		$this->settings_select( 'press-this-extended-save-publish', $options, $extra_text );
+	}
+
+	/**
+	 * Echos HTML for the selecting redirect when saving a draft.
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 * @access public
+	 **/
+	public function setting_save_draft() {
+		$options = array(
+			'pt'     => __( 'Remain in the Press This popup', 'press-this-extended' ),
+			'editor' => __( 'Standard Editor' ),
+		);
+
+		$extra_text = __( 'After saving a draft, you will be redirected to this location.', 'press-this-extended' );
+
+		$this->settings_select( 'press-this-extended-save-draft', $options, $extra_text );
+	}
+
+	/**
+	 * Echos HTML dropdown selection forms.
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 * @access public
+	 **/
+
+	function settings_select( $name, $values, $extra_text = '' ) {
+		if ( empty( $name ) || empty( $values ) || ! is_array( $values ) ) {
+			return;
+		}
+		$option = get_option( $name );
+		?>
+		<fieldset>
+			<select name="<?php echo esc_attr( $name ); ?>" id="<?php echo esc_attr( $name ); ?>">
+				<?php foreach ( $values as $key => $value ) : ?>
+					<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $key, $option ); ?>>
+						<?php echo esc_html( $value ); ?>
+					</option>
+				<?php endforeach; ?>
+			</select>
+			<?php if ( ! empty( $extra_text ) ) : ?>
+				<p class="description"><?php echo esc_html( $extra_text ); ?></p>
+			<?php endif; ?>
+		</fieldset>
+		<?php
 	}
 
 	/**
@@ -351,13 +443,14 @@ class Press_This_Extended {
 	 * @access public
 	 */
 	public function redirect_publish( $redirect, $post_id, $post_status ) {
-		$redirect_publish = get_option( 'press-this-extended-publish' );
+		$save_publish = get_option( 'press-this-extended-save-publish' );
+		$save_draft   = get_option( 'press-this-extended-save-draft' );
 
-		if ( $redirect_publish ) {
-			$redirect = get_edit_post_link( $post_id, 'raw' );
+		if ( ( 'publish' == $post_status && $save_publish == 'editor' ) || 'publish' != $post_status && $save_draft == 'editor' ) {
+				$redirect = get_edit_post_link( $post_id, 'raw' );
 		}
 
-		return $redirect;
+		return $redirect; // otherwise, it is using the default action within WordPress. We want their option in case we need to flesh this out later.
 	}
 
 	/**
