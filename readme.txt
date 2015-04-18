@@ -26,9 +26,9 @@ Via your site's wp-admin Dashboard:
 
 == Frequently Asked Questions ==
 
-= What is Legacy Mode? =
+= What is this? =
 
-The new Press This adds easy-to-use media discovery, blockquote insertion, cooler source links. If you liked the old way, just turn on this option.
+The new Press This adds easy-to-use media discovery, blockquote insertion, cooler source links. It is really flexible, but no UI is included. This reveals the built-in flexibility.
 
 == Changelog ==
 
