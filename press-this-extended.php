@@ -4,7 +4,7 @@
  * Press This Extended
  *
  * @package     BJGK\Press_this_extended
- * @version     0.1-20150414-2225
+ * @version     1.0.0-beta1
  * @author      Brandon Kraft <public@brandonkraft.com>
  * @copyright   Copyright (c) 2015, Brandon Kraft
  * @link        https://www.brandonkraft.com/press-this-extended/
@@ -14,7 +14,7 @@
  * Plugin Name: Press This Extended
  * Plugin URI:  https://www.brandonkraft.com/press-this-extended/
  * Description: Provides options for extending and modifying the Press This feature (WP 4.2+)
- * Version:     0.1-20150414-2225
+ * Version:     1.0.0-beta1
  * Author:      Brandon Kraft
  * Author URI:  https://www.brandonkraft.com
  * License:     GPL-2.0+
