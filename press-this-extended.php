@@ -47,10 +47,11 @@ class Press_This_Extended {
 	public function __construct() {
 		global $pagenow;
 
-		add_action( 'admin_init',               array( $this, 'load_translations' ) , 1 ); // These filters are generally used within wp-admin.
-		add_action( 'admin_init',               array( $this, 'add_settings' ) );
-		add_action( 'admin_init',               array( $this, 'legacy_conversion') );
-		add_action( 'load-options-writing.php', array( $this, 'help_tab' ) );
+		add_action( 'admin_init',                                       array( $this, 'load_translations' ) , 1 ); // These filters are generally used within wp-admin.
+		add_action( 'admin_init',                                       array( $this, 'add_settings' ) );
+		add_action( 'admin_init',                                       array( $this, 'legacy_conversion') );
+		add_action( 'load-options-writing.php',                         array( $this, 'help_tab' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'action_links' ) );
 
 		if ( 'press-this.php' == $pagenow ) { // Only needed when Press This is loaded.
 			add_action( 'admin_init',             array( $this, 'execute' ) );
@@ -508,6 +509,11 @@ class Press_This_Extended {
 	public function enable_text_editor( $settings ){
 		$settings['quicktags'] = true;
 		return $settings;
+	}
+
+	function action_links( $links ) {
+		$links[] = '<a href="'. get_admin_url(null, 'options-writing.php') .'">Settings</a>';
+		return $links;
 	}
 }
 
