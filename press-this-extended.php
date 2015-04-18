@@ -42,9 +42,8 @@ class Press_This_Extended {
 	 *
 	 * @since 1.0.0
 	 * @return void
-	 * @access public
 	 */
-	public function __construct() {
+	function __construct() {
 		global $pagenow;
 
 		add_action( 'admin_init',                                       array( $this, 'load_translations' ) , 1 ); // These filters are generally used within wp-admin.
@@ -63,14 +62,13 @@ class Press_This_Extended {
 		}
 	}
 
-
 	/**
  	 * Load the textdomain / translations for the plugin.
  	 *
  	 * @since 1.0.0
  	 * @return void
  	 */
-	public function load_translations() {
+	function load_translations() {
 		$domain = 'press-this-extended';
 		$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
 		load_textdomain( $domain, trailingslashit( WP_LANG_DIR ) . $domain . '/' . $domain . '-' . $locale . '.mo' );
@@ -82,9 +80,8 @@ class Press_This_Extended {
 	 *
 	 * @return void
 	 * @since 1.0.0
-	 * @access public
 	 **/
-	public function add_settings() {
+	function add_settings() {
 		$slug = 'press-this-extended';
 
 		add_settings_section( $slug, 'Press This', null, 'writing');
@@ -144,9 +141,8 @@ class Press_This_Extended {
 	 *
 	 * @return void
 	 * @since 1.0.0
-	 * @access public
 	 **/
-	public function legacy_conversion() {
+	function legacy_conversion() {
 		$legacy = get_option( 'press-this-extended-legacy', 'nothing' ); // sets a default value if setting is not present in the DB. Can't use false since that is a valid setting state in the db.
 		if ( $legacy == 1 ) {
 			$citation = '<p>via <a href="%1$s">%2$s</a></p>';
@@ -165,9 +161,8 @@ class Press_This_Extended {
 	 *
 	 * @return string Default blockquote wrapping with %1$s being the variable for the quote.
 	 * @since 1.0.0
-	 * @access public
 	 **/
-	public function default_blockquote() {
+	function default_blockquote() {
 		return '<blockquote>%1$s</blockquote>';
 	}
 
@@ -178,9 +173,8 @@ class Press_This_Extended {
 	 *
 	 * @return string Default source wrapping with %1$s representing the URL and %2$s the pressed page's title.
 	 * @since 1.0.0
-	 * @access public
 	 **/
-	public function default_citation() {
+	function default_citation() {
 		$html = '<p>' . _x( 'Source:', 'Used in Press This to indicate where the content comes from.' ) .
 				' <em><a href="%1$s">%2$s</a></em></p>';
 		return $html;
@@ -191,9 +185,8 @@ class Press_This_Extended {
 	 *
 	 * @return string Default draft redirect location.
 	 * @since 1.0.0
-	 * @access public
 	 **/
-	public function default_save() {
+	function default_save() {
 		return 'pt';
 	}
 
@@ -202,9 +195,8 @@ class Press_This_Extended {
 	 *
 	 * @return string Default publish redirect location.
 	 * @since 1.0.0
-	 * @access public
 	 **/
-	public function default_publish() {
+	function default_publish() {
 		return 'permalink';
 	}
 
@@ -213,9 +205,8 @@ class Press_This_Extended {
 	 *
 	 * @return void
 	 * @since 1.0.0
-	 * @access public
 	 **/
-	public function setting_media(){
+	function setting_media(){
 		$html = '<input type="checkbox" id="press-this-extended-media" name="press-this-extended-media" value="1" ' . checked(1, get_option('press-this-extended-media'), false) . '/>';
 		$html .= '<label for="press-this-extended-media"> '  . __( 'Should Press This suggest media to add to a new post?', 'press-this-extended' ) . '</label>';
 		echo $html;
@@ -226,9 +217,8 @@ class Press_This_Extended {
 	 *
 	 * @return void
 	 * @since 1.0.0
-	 * @access public
 	 **/
-	public function setting_text(){
+	function setting_text(){
 		$html = '<input type="checkbox" id="press-this-extended-text" name="press-this-extended-text" value="1" ' . checked(1, get_option('press-this-extended-text'), false) . '/>';
 		$html .= '<label for="press-this-extended-text"> '  . __( "Should Press This try to suggest a quote if you haven't preselected text?", 'press-this-extended' ) . '</label>';
 		echo $html;
@@ -239,9 +229,8 @@ class Press_This_Extended {
 	 *
 	 * @return void
 	 * @since 1.0.0
-	 * @access public
 	 **/
-	public function setting_blockquote(){
+	function setting_blockquote(){
 		$html = '<input type="text" id="press-this-extended-blockquote" name="press-this-extended-blockquote" value="' . esc_attr( get_option('press-this-extended-blockquote')) . '" class="regular-text ltr" />';
 		$html .= '<p class="description">' . __( 'Use %1$s as a placeholder for the blockquote.', 'press-this-extended' ) .'</p>';
 		echo $html;
@@ -252,9 +241,8 @@ class Press_This_Extended {
 	 *
 	 * @return void
 	 * @since 1.0.0
-	 * @access public
 	 **/
-	public function setting_citation(){
+	function setting_citation(){
 		$html = '<input type="text" id="press-this-extended-citation" name="press-this-extended-citation" value="' . esc_attr( get_option('press-this-extended-citation')) . '" class="regular-text ltr" />';
 		$html .= '<p class="description">' . __( 'Use %1$s and %2$s as a placeholders for the page URL and title, respectively.', 'press-this-extended' ) .'</p>';
 		echo $html;
@@ -265,9 +253,8 @@ class Press_This_Extended {
 	 *
 	 * @return void
 	 * @since 1.0.0
-	 * @access public
 	 **/
-	public function setting_parent() {
+	function setting_parent() {
 		$html = '<input type="checkbox" id="press-this-extended-parent" name="press-this-extended-parent" value="1" ' . checked(1, get_option('press-this-extended-parent'), false) . '/>';
 		$html .= '<label for="press-this-extended-parent"> '  . __( 'Upon publishing or saving a draft, close the Press This popup and redirect the original tab.', 'press-this-extended' ) . '</label>';
 
@@ -279,9 +266,8 @@ class Press_This_Extended {
 	 *
 	 * @return void
 	 * @since 1.0.0
-	 * @access public
 	 **/
-	public function setting_save_publish() {
+	function setting_save_publish() {
 		$options = array(
 			'permalink' => __( 'Published Post', 'press-this-extended' ),
 			'editor'    => __( 'Standard Editor' ),
@@ -297,9 +283,8 @@ class Press_This_Extended {
 	 *
 	 * @return void
 	 * @since 1.0.0
-	 * @access public
 	 **/
-	public function setting_save_draft() {
+	function setting_save_draft() {
 		$options = array(
 			'pt'     => __( 'Remain in the Press This popup', 'press-this-extended' ),
 			'editor' => __( 'Standard Editor' ),
@@ -315,7 +300,6 @@ class Press_This_Extended {
 	 *
 	 * @return void
 	 * @since 1.0.0
-	 * @access public
 	 **/
 
 	function settings_select( $name, $values, $extra_text = '' ) {
@@ -344,9 +328,8 @@ class Press_This_Extended {
 	 *
 	 * @return void
 	 * @since 1.0.0
-	 * @access public
 	 **/
-	public function setting_editor() {
+	function setting_editor() {
 		$html = '<input type="checkbox" id="press-this-extended-editor" name="press-this-extended-editor" value="1" ' . checked(1, get_option('press-this-extended-editor'), false) . '/>';
 		$html .= '<label for="press-this-extended-editor"> '  . __( 'Enable the Text Editor in Press This', 'press-this-extended' ) . '</label>';
 		$html .= '<p class="description">' . __( 'Experimental! This is not fully operational yet. Inserting detected media will not work in the Text Editor. The "Save Draft" button will not reappear until you focus within the Visual Editor.<br />There be dragons! Your milage may vary. No warranty implied or stated!', 'press-this-extended' ) .'</p>';
@@ -361,9 +344,8 @@ class Press_This_Extended {
 	 *		@type string $link  Citation wrapping with placeholders %1$s and %2$s for Pressed URL and page title, respectively.
 	 * }
 	 * @since 1.0.0
-	 * @access public
 	 **/
-	public function execute_html( $html, $data ){
+	function execute_html( $html, $data ){
 		$text_discovery  = get_option( 'press-this-extended-text' );
 
 		$html = array(
@@ -399,9 +381,8 @@ class Press_This_Extended {
 	 *
 	 * @return void
 	 * @since 1.0.0
-	 * @access public
 	 **/
-	public function execute() {
+	function execute() {
 		$text_discovery  = get_option( 'press-this-extended-text' );
 		$media_discovery = get_option( 'press-this-extended-media' );
 		$redirect_parent = get_option( 'press-this-extended-parent' );
@@ -428,9 +409,8 @@ class Press_This_Extended {
 	 *
 	 * @return void
 	 * @since 1.0.0
-	 * @access public
 	 **/
-	public function execute_ajax() {
+	function execute_ajax() {
 		add_filter( 'press_this_save_redirect', array( $this, 'redirect_publish'), 10, 3 );
 	}
 
@@ -441,9 +421,8 @@ class Press_This_Extended {
 	 *
 	 * @return URL of redirectoin
 	 * @since 1.0.0
-	 * @access public
 	 */
-	public function redirect_publish( $redirect, $post_id, $post_status ) {
+	function redirect_publish( $redirect, $post_id, $post_status ) {
 		$save_publish = get_option( 'press-this-extended-save-publish' );
 		$save_draft   = get_option( 'press-this-extended-save-draft' );
 
@@ -459,9 +438,8 @@ class Press_This_Extended {
 	 *
 	 * @return void
 	 * @since 1.0.0
-	 * @access public
 	 **/
-	public function help_tab() {
+	function help_tab() {
 		get_current_screen()->add_help_tab( array(
 			'id'      => 'options-press-this-extended',
 			'title'   => __('Press This'),
@@ -477,9 +455,8 @@ class Press_This_Extended {
 	 *
 	 * @return string New UA string.
 	 * @since 1.0.0
-	 * @access public
 	 **/
-	public function ua_hack() {
+	function ua_hack() {
 		return 'WP Press This';
 	}
 
@@ -490,9 +467,8 @@ class Press_This_Extended {
 	 * @return void
 	 * @see 'admin_print_styles'
 	 * @since 1.0.0
-	 * @access public
 	 **/
-	public function text_editor_style(){
+	function text_editor_style(){
 		echo '<style type="text/css">textarea#pressthis {color: #404040;}.quicktags-toolbar {background: 0;}</style>';
 	}
 
@@ -504,13 +480,19 @@ class Press_This_Extended {
 	 *		@type bool $quicktags Enables Visual/Text Editor buttons in TinyMCE
 	 * }
 	 * @since 1.0.0
-	 * @access public
 	 **/
-	public function enable_text_editor( $settings ){
+	function enable_text_editor( $settings ){
 		$settings['quicktags'] = true;
 		return $settings;
 	}
 
+	/**
+	 * Adds Settings link to plugin table.
+	 *
+	 * @return array $links
+	 *
+	 * @since 1.0.0
+	 **/
 	function action_links( $links ) {
 		$links[] = '<a href="'. get_admin_url(null, 'options-writing.php') .'">Settings</a>';
 		return $links;
