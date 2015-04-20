@@ -349,7 +349,7 @@ class Press_This_Extended {
 		$text_discovery  = get_option( 'press-this-extended-text' );
 
 		$html = array(
-				'quote' => get_option( 'press_this_extended_blockquote'),
+				'quote' => get_option( 'press-this-extended-blockquote'),
 				'link'  => get_option( 'press-this-extended-citation'),
 			);
 
