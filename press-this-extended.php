@@ -286,7 +286,7 @@ class Press_This_Extended {
 	 **/
 	function setting_save_draft() {
 		$options = array(
-			'pt'     => __( 'Remain in the Press This popup', 'press-this-extended' ),
+			'pt'     => __( 'Remain in the Press This editor', 'press-this-extended' ),
 			'editor' => __( 'Standard Editor' ),
 		);
 
