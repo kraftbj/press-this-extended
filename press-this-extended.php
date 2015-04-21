@@ -86,7 +86,7 @@ class Press_This_Extended {
 
 		add_settings_section( $slug, 'Press This', null, 'writing');
 
-		add_settings_field( $slug . '-media', __( 'Content Discovery', $slug ), array( $this, 'setting_media' ), 'writing', $slug );
+		add_settings_field( $slug . '-media', __( 'Content Grabbing', $slug ), array( $this, 'setting_media' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-media', 'intval' );
 		add_filter( 'default_option_'. $slug . '-media', '__return_true' );
 
@@ -94,11 +94,11 @@ class Press_This_Extended {
 		register_setting( 'writing', $slug . '-text', 'intval' );
 		add_filter( 'default_option_' . $slug . '-text', '__return_true' );
 
-		add_settings_field( $slug . '-blockquote', __('Blockquote Wrapping', $slug), array( $this, 'setting_blockquote' ), 'writing', $slug );
+		add_settings_field( $slug . '-blockquote', __('Blockquote Formatting', $slug), array( $this, 'setting_blockquote' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-blockquote', 'wp_kses_post' );
 		add_filter( 'default_option_' . $slug . '-blockquote', array( $this, 'default_blockquote' ) ); // When WP is 5.3+, use anonymous function.
 
-		add_settings_field( $slug . '-citation', __('Citation Wrapping', $slug), array( $this, 'setting_citation' ), 'writing', $slug );
+		add_settings_field( $slug . '-citation', __('Citation Formatting', $slug), array( $this, 'setting_citation' ), 'writing', $slug );
 		register_setting( 'writing', $slug . '-citation', 'wp_kses_post' );
 		add_filter( 'default_option_' . $slug . '-citation', array( $this, 'default_citation' ) ); // When WP is 5.3+, use anonymous function.
 
