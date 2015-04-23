@@ -4,15 +4,17 @@ Donate link: https://www.brandonkraft.com/donate/
 Tags: press this
 Requires at least: 4.2
 Tested up to: 4.2
-Stable tag: 1.0.0-beta1
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-The new Press This in WordPress 4.2 includes new options that can be modified via code. Or via this plugin.
+The new Press This in WordPress 4.2 includes new options that can be modified filters or a plugin like this.
 
 == Description ==
 
-The new Press This in WordPress 4.2 includes new options that can be modified via code. Or via this plugin.
+The new Press This in WordPress 4.2 includes new options that can be modified filters or a plugin like this.
+
+Options include turning on or off the quick media insertion feature or automatically blockquoting the page's excerpt if you haven't selected text, and more.
 
 Development is taking place at https://github.com/kraftbj/press-this-extended
 
