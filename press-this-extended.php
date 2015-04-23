@@ -231,7 +231,9 @@ class Press_This_Extended {
 	 * @since 1.0.0
 	 **/
 	function setting_blockquote(){
-		$html = '<input type="text" id="press-this-extended-blockquote" name="press-this-extended-blockquote" value="' . esc_attr( get_option('press-this-extended-blockquote')) . '" class="regular-text ltr" />';
+		$html = '<textarea id="press-this-extended-blockquote" name="press-this-extended-blockquote" class="large-text ltr">';
+		$html .= esc_textarea( get_option('press-this-extended-blockquote'));
+		$html .= '</textarea>';
 		$html .= '<p class="description">' . __( 'Use %1$s as a placeholder for the blockquote.', 'press-this-extended' ) .'</p>';
 		echo $html;
 	}
@@ -243,7 +245,9 @@ class Press_This_Extended {
 	 * @since 1.0.0
 	 **/
 	function setting_citation(){
-		$html = '<input type="text" id="press-this-extended-citation" name="press-this-extended-citation" value="' . esc_attr( get_option('press-this-extended-citation')) . '" class="regular-text ltr" />';
+		$html = '<textarea id="press-this-extended-citation" name="press-this-extended-citation" class="large-text ltr">';
+		$html .= esc_textarea( get_option('press-this-extended-citation'));
+		$html .= '</textarea>';
 		$html .= '<p class="description">' . __( 'Use %1$s and %2$s as a placeholders for the page URL and title, respectively.', 'press-this-extended' ) .'</p>';
 		echo $html;
 	}
