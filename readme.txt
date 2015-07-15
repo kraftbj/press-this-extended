@@ -36,5 +36,9 @@ The new Press This adds easy-to-use media discovery, blockquote insertion, coole
 
 == Changelog ==
 
+= x.x =
+* Removes Text Editor setting since this is a default feature of WordPress 4.3.
+* Removes the User Agent filter to prevent blocking of Press This. Merged into WordPress 4.3.
+
 = 1.0 =
 * Initial Release
