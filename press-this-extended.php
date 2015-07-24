@@ -54,10 +54,6 @@ class Press_This_Extended {
 		add_action( 'load-options-writing.php',                         array( $this, 'help_tab' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'action_links' ) );
 
-		if ( 'press-this.php' == $pagenow ) { // Only needed when Press This is loaded.
-			add_action( 'admin_init', array( $this, 'execute' ) );
-		}
-
 		if ( 'admin-ajax.php' == $pagenow ) { // These hooks are the only one used exclusively within the ajax context.
 			add_action( 'admin_init', array( $this, 'execute_ajax' ) );
 		}
