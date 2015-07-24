@@ -49,6 +49,8 @@ class Press_This_Extended {
 		add_action( 'admin_init',                                       array( $this, 'load_translations' ) , 1 ); // These filters are generally used within wp-admin.
 		add_action( 'admin_init',                                       array( $this, 'add_settings' ) );
 		add_action( 'admin_init',                                       array( $this, 'legacy_conversion') );
+		add_action( 'admin_init',                                       array( $this, 'execute' ) );
+		add_action( 'admin_head-press-this.php',                        array( $this, 'mobile_app_meta' ) );
 		add_action( 'load-options-writing.php',                         array( $this, 'help_tab' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'action_links' ) );
 
@@ -446,6 +448,20 @@ class Press_This_Extended {
 	function action_links( $links ) {
 		$links[] = '<a href="'. get_admin_url(null, 'options-writing.php') .'">Settings</a>';
 		return $links;
+	}
+
+	/**
+	 * Makes Press This into a webapp for iOS and Chrome for Android.
+	 *
+	 * @return void
+	 *
+	 * @since 1.1.0
+	 **/
+	function mobile_app_meta(){
+		$html = '<meta name="apple-mobile-web-app-capable" content="yes">';
+		$html .= '<meta name="apple-mobile-web-app-status-bar-style" content="black">';
+		$html .= '<meta name="mobile-web-app-capable" content="yes">'; // Chrome for Android.
+		echo $html;
 	}
 }
 

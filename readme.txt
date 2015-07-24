@@ -37,6 +37,7 @@ The new Press This adds easy-to-use media discovery, blockquote insertion, coole
 == Changelog ==
 
 = 1.1.0 =
+* New "Add to Homescreen" actions on iOS and Chrome for Android will create a web app for Press This.
 * Removes Text Editor setting since this is a default feature of WordPress 4.3.
 * Removes the User Agent filter to prevent blocking of Press This. Merged into WordPress 4.3.
 
