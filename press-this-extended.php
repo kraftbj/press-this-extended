@@ -7,16 +7,16 @@
  * @version     1.1.0
  * @author      Brandon Kraft <public@brandonkraft.com>
  * @copyright   Copyright (c) 2015, Brandon Kraft
- * @link        https://www.brandonkraft.com/press-this-extended/
+ * @link        https://kraft.im/press-this-extended/
  * @license     GPL-2.0+
  *
  * @wordpress-plugin
  * Plugin Name: Press This Extended
- * Plugin URI:  https://www.brandonkraft.com/press-this-extended/
+ * Plugin URI:  https://kraft.im/press-this-extended/
  * Description: Provides options for extending and modifying the Press This feature (WP 4.2+)
  * Version:     1.1.0
  * Author:      Brandon Kraft
- * Author URI:  https://www.brandonkraft.com
+ * Author URI:  https://kraft.im/
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * Text Domain: press-this-extended
