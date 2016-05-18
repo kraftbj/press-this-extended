@@ -6,7 +6,7 @@
  * @package     BJGK\Press_this_extended
  * @version     1.1.0
  * @author      Brandon Kraft <public@brandonkraft.com>
- * @copyright   Copyright (c) 2015, Brandon Kraft
+ * @copyright   Copyright (c) 2015-2016, Brandon Kraft
  * @link        https://kraft.im/press-this-extended/
  * @license     GPL-2.0+
  *
