@@ -1,6 +1,6 @@
 === Press This Extended ===
 Contributors: kraftbj
-Donate link: https://www.brandonkraft.com/donate/
+Donate link: https://kraft.im/donate/
 Tags: press this
 Requires at least: 4.3
 Tested up to: 4.6
