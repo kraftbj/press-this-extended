@@ -3,7 +3,7 @@ Contributors: kraftbj
 Donate link: https://kraft.im/donate/
 Tags: press this
 Requires at least: 4.3
-Tested up to: 4.6
+Tested up to: 4.7
 Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
