@@ -1,0 +1,13 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/wp-env.json",
+	"core": null,
+	"phpVersion": "8.2",
+	"plugins": [
+		".",
+		"https://downloads.wordpress.org/plugin/press-this.zip"
+	],
+	"config": {
+		"WP_DEBUG": true,
+		"SCRIPT_DEBUG": true
+	}
+}

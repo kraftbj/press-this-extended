@@ -1,0 +1,33 @@
+.press-this-extended-settings {
+	max-width: 800px;
+	margin: 20px 0;
+
+	.pte-settings-cards {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		margin-top: 20px;
+	}
+
+	.components-card {
+		h2 {
+			margin: 0;
+			font-size: 14px;
+			font-weight: 600;
+		}
+	}
+
+	.components-card__body {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.components-notice {
+		margin: 10px 0;
+	}
+
+	.submit {
+		margin-top: 10px;
+	}
+}
