@@ -1,0 +1,10 @@
+{
+	"name": "@press-this-extended/settings",
+	"version": "2.0.0",
+	"description": "Settings page for Press This Extended",
+	"main": "src/index.jsx",
+	"wpScript": true,
+	"wpStyleEntryPoints": [
+		"src/style.scss"
+	]
+}

@@ -1,0 +1,32 @@
+{
+	"name": "press-this-extended",
+	"version": "2.0.0",
+	"description": "Provides options for extending and modifying the Press This feature",
+	"author": "Brandon Kraft",
+	"license": "GPL-2.0-or-later",
+	"scripts": {
+		"build": "wp-build",
+		"dev": "wp-build --watch",
+		"wp-env": "wp-env",
+		"env:start": "wp-env start",
+		"env:stop": "wp-env stop",
+		"env:destroy": "wp-env destroy"
+	},
+	"devDependencies": {
+		"@wordpress/build": "^0.5.0",
+		"@wordpress/env": "^10.0.0"
+	},
+	"dependencies": {
+		"@wordpress/api-fetch": "^7.0.0",
+		"@wordpress/components": "^28.0.0",
+		"@wordpress/data": "^10.0.0",
+		"@wordpress/element": "^6.0.0",
+		"@wordpress/i18n": "^5.0.0"
+	},
+	"wpPlugin": {
+		"name": "press_this_extended",
+		"scriptGlobal": "pressThisExtended",
+		"packageNamespace": "press-this-extended",
+		"handlePrefix": "pte"
+	}
+}
