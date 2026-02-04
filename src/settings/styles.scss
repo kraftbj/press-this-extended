@@ -1,0 +1,211 @@
+/**
+ * Press This Extended Settings Styles
+ */
+
+.press-this-extended-settings {
+	max-width: 800px;
+	margin-top: 20px;
+
+	.components-notice {
+		margin-bottom: 20px;
+	}
+
+	.components-panel {
+		margin-bottom: 16px;
+	}
+
+	.components-panel__body {
+		border: 1px solid #e0e0e0;
+		background: #fff;
+	}
+
+	.settings-section {
+		margin-bottom: 24px;
+
+		&__description {
+			color: #757575;
+			font-size: 13px;
+			margin-bottom: 16px;
+		}
+	}
+
+	.setting-row {
+		margin-bottom: 20px;
+		padding-bottom: 20px;
+		border-bottom: 1px solid #f0f0f0;
+
+		&:last-child {
+			margin-bottom: 0;
+			padding-bottom: 0;
+			border-bottom: none;
+		}
+
+		.components-base-control__help {
+			margin-top: 4px;
+			color: #757575;
+		}
+	}
+
+	.block-picker {
+		&__search {
+			margin-bottom: 16px;
+		}
+
+		&__categories {
+			margin-bottom: 16px;
+		}
+
+		&__category-buttons {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 8px;
+			margin-top: 8px;
+		}
+
+		&__list {
+			max-height: 400px;
+			overflow-y: auto;
+			border: 1px solid #e0e0e0;
+			border-radius: 4px;
+			padding: 8px;
+			background: #f9f9f9;
+		}
+
+		&__category {
+			margin-bottom: 16px;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		&__category-title {
+			font-weight: 600;
+			margin-bottom: 8px;
+			color: #1e1e1e;
+			font-size: 13px;
+			text-transform: capitalize;
+		}
+
+		&__blocks {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+			gap: 8px;
+		}
+
+		&__block {
+			display: flex;
+			align-items: center;
+			padding: 8px 12px;
+			background: #fff;
+			border: 1px solid #e0e0e0;
+			border-radius: 4px;
+			cursor: pointer;
+			transition: all 0.15s ease;
+
+			&:hover {
+				border-color: #007cba;
+			}
+
+			&--selected {
+				background: #f0f7fc;
+				border-color: #007cba;
+			}
+
+			.components-checkbox-control {
+				margin-bottom: 0;
+			}
+
+			.components-checkbox-control__input-container {
+				margin-right: 8px;
+			}
+		}
+
+		&__block-name {
+			font-size: 13px;
+			color: #1e1e1e;
+		}
+
+		&__selected-count {
+			margin-top: 12px;
+			padding: 8px 12px;
+			background: #f0f7fc;
+			border-radius: 4px;
+			font-size: 13px;
+			color: #007cba;
+		}
+
+		&__actions {
+			display: flex;
+			gap: 8px;
+			margin-top: 12px;
+		}
+	}
+
+	.save-button-wrapper {
+		margin-top: 24px;
+		display: flex;
+		align-items: center;
+		gap: 12px;
+
+		.save-notice {
+			color: #00a32a;
+			font-size: 13px;
+		}
+	}
+
+	.version-notice {
+		margin-bottom: 24px;
+		padding: 16px;
+		background: #fff8e5;
+		border-left: 4px solid #dba617;
+		border-radius: 4px;
+
+		&__title {
+			font-weight: 600;
+			margin-bottom: 4px;
+		}
+
+		&__text {
+			color: #50575e;
+			margin: 0;
+		}
+	}
+
+	.not-installed-notice {
+		margin-bottom: 24px;
+		padding: 16px;
+		background: #fcf0f1;
+		border-left: 4px solid #d63638;
+		border-radius: 4px;
+
+		&__title {
+			font-weight: 600;
+			margin-bottom: 4px;
+			color: #d63638;
+		}
+
+		&__text {
+			color: #50575e;
+			margin: 0;
+		}
+	}
+
+	// Formatting textarea
+	.formatting-textarea {
+		.components-textarea-control__input {
+			font-family: monospace;
+			font-size: 13px;
+		}
+	}
+
+	// Advanced settings warning
+	.advanced-warning {
+		padding: 12px;
+		background: #fff8e5;
+		border-radius: 4px;
+		margin-bottom: 16px;
+		font-size: 13px;
+		color: #50575e;
+	}
+}
