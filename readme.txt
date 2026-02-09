@@ -1,6 +1,5 @@
 === Press This Extended ===
 Contributors: kraftbj
-Donate link: https://kraft.im/donate/
 Tags: press this, bookmarklet, quick post
 Requires at least: 5.8
 Tested up to: 6.7
