@@ -1,7 +1,7 @@
 === Press This Extended ===
 Contributors: kraftbj
 Tags: press this, bookmarklet, quick post
-Requires at least: 5.8
+Requires at least: 6.9
 Tested up to: 6.7
 Stable tag: 2.0.0
 Requires PHP: 7.4
@@ -96,7 +96,7 @@ The plugin will load, but the settings won't do anything without Press This. A n
 * Version detection to show appropriate options
 * Automatic migration of settings from 1.x
 * Settings moved from Writing page to dedicated Settings → Press This page
-* Requires WordPress 5.8+ and PHP 7.4+
+* Requires WordPress 6.9+ and PHP 7.4+
 
 = 1.1.0 =
 * New "Add to Homescreen" actions on iOS and Chrome for Android will create a web app for Press This.
@@ -109,4 +109,4 @@ The plugin will load, but the settings won't do anything without Press This. A n
 == Upgrade Notice ==
 
 = 2.0.0 =
-Major update with support for Press This 2.x. Your existing settings will be automatically migrated. Now requires WordPress 5.8+ and PHP 7.4+.
+Major update with support for Press This 2.x. Your existing settings will be automatically migrated. Now requires WordPress 6.9+ and PHP 7.4+.
