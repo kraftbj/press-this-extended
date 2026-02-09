@@ -211,16 +211,23 @@ const BlockPicker = ( { blocks, selectedBlocks, onChange } ) => {
 
 						return (
 							<div className="block-picker__category" key={ category }>
-								<div
+								<button
+									type="button"
 									className="block-picker__category-header"
 									onClick={ () => toggleCategoryExpansion( category ) }
+									aria-expanded={ !! isExpanded }
 									style={ {
 										display: 'flex',
 										justifyContent: 'space-between',
 										alignItems: 'center',
 										cursor: 'pointer',
 										padding: '8px 0',
+										background: 'none',
+										border: 'none',
 										borderBottom: '1px solid #e0e0e0',
+										width: '100%',
+										font: 'inherit',
+										textAlign: 'left',
 									} }
 								>
 									<span className="block-picker__category-title">
@@ -251,7 +258,7 @@ const BlockPicker = ( { blocks, selectedBlocks, onChange } ) => {
 											{ isExpanded ? '▼' : '▶' }
 										</span>
 									</div>
-								</div>
+								</button>
 
 								{ isExpanded && (
 									<div className="block-picker__blocks">

@@ -7,7 +7,6 @@ import {
 	Button,
 	Panel,
 	PanelBody,
-	PanelRow,
 	Spinner,
 	Notice,
 	ToggleControl,
@@ -33,8 +32,7 @@ const SettingsPage = () => {
 	const [ settings, setSettings ] = useState( {} );
 	const [ definitions, setDefinitions ] = useState( {} );
 	const [ available, setAvailable ] = useState( [] );
-	const [ version, setVersion ] = useState( initialVersion || {} );
-	const [ postTypes, setPostTypes ] = useState( [] );
+	const [ version ] = useState( initialVersion || {} );
 	const [ blocks, setBlocks ] = useState( [] );
 
 	// Load initial data
@@ -44,7 +42,7 @@ const SettingsPage = () => {
 				setLoading( true );
 				setError( null );
 
-				const [ settingsData, postTypesData, blocksData ] = await Promise.all( [
+				const [ settingsData, , blocksData ] = await Promise.all( [
 					apiFetch( { url: `${ restUrl }/settings` } ),
 					apiFetch( { url: `${ restUrl }/post-types` } ),
 					apiFetch( { url: `${ restUrl }/blocks` } ),
@@ -53,7 +51,6 @@ const SettingsPage = () => {
 				setSettings( settingsData.values || {} );
 				setDefinitions( settingsData.definitions || {} );
 				setAvailable( settingsData.available || [] );
-				setPostTypes( postTypesData || [] );
 				setBlocks( blocksData || [] );
 			} catch ( err ) {
 				setError( err.message || __( 'Failed to load settings', 'press-this-extended' ) );
