@@ -55,9 +55,10 @@ class Legacy_Compat {
 		}
 
 		// Check if any old options exist
+		$sentinel        = 'press_this_extended_not_set';
 		$has_old_options = false;
 		foreach ( array_keys( self::$option_mapping ) as $old_key ) {
-			if ( get_option( $old_key ) !== false ) {
+			if ( get_option( $old_key, $sentinel ) !== $sentinel ) {
 				$has_old_options = true;
 				break;
 			}
@@ -76,10 +77,12 @@ class Legacy_Compat {
 	 * Migrate options from old format to new format.
 	 */
 	private static function migrate_options() {
-		foreach ( self::$option_mapping as $old_key => $new_key ) {
-			$old_value = get_option( $old_key );
+		$sentinel = 'press_this_extended_not_set';
 
-			if ( $old_value === false ) {
+		foreach ( self::$option_mapping as $old_key => $new_key ) {
+			$old_value = get_option( $old_key, $sentinel );
+
+			if ( $old_value === $sentinel ) {
 				continue;
 			}
 
@@ -92,7 +95,7 @@ class Legacy_Compat {
 			}
 
 			// Only migrate if new option doesn't exist
-			if ( get_option( $new_key ) === false ) {
+			if ( get_option( $new_key, $sentinel ) === $sentinel ) {
 				update_option( $new_key, $old_value );
 			}
 		}
@@ -137,9 +140,10 @@ class Legacy_Compat {
 	 * @return mixed Option value.
 	 */
 	public static function get_option( $new_key, $default = false ) {
-		$value = get_option( $new_key );
+		$sentinel = 'press_this_extended_not_set';
+		$value    = get_option( $new_key, $sentinel );
 
-		if ( $value !== false ) {
+		if ( $value !== $sentinel ) {
 			return $value;
 		}
 
@@ -147,9 +151,9 @@ class Legacy_Compat {
 		$old_key = array_search( $new_key, self::$option_mapping, true );
 
 		if ( $old_key !== false ) {
-			$old_value = get_option( $old_key );
+			$old_value = get_option( $old_key, $sentinel );
 
-			if ( $old_value !== false ) {
+			if ( $old_value !== $sentinel ) {
 				// Transform if needed
 				if ( isset( self::$value_transforms[ $old_key ] ) ) {
 					$transforms = self::$value_transforms[ $old_key ];

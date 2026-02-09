@@ -53,6 +53,12 @@ class Version_Detector {
 			return self::$version_info;
 		}
 
+		// Check if the plugin is actually active
+		$plugin_basename = plugin_basename( $press_this_file );
+		if ( ! is_plugin_active( $plugin_basename ) ) {
+			return self::$version_info;
+		}
+
 		self::$version_info['installed'] = true;
 
 		// Get plugin data

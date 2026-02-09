@@ -422,7 +422,7 @@ class Settings {
 	 * Update settings via REST.
 	 *
 	 * @param \WP_REST_Request $request The request object.
-	 * @return \WP_REST_Response Updated settings response.
+	 * @return \WP_REST_Response|\WP_Error Updated settings response or error.
 	 */
 	public function update_settings( $request ) {
 		$params = $request->get_json_params();
@@ -433,6 +433,9 @@ class Settings {
 			}
 
 			$option_name = self::OPTION_PREFIX . $key;
+			$sanitize    = $this->get_sanitize_callback( $this->settings[ $key ] );
+			$value       = call_user_func( $sanitize, $value );
+
 			update_option( $option_name, $value );
 		}
 
@@ -532,7 +535,7 @@ class Settings {
 
 		wp_enqueue_script(
 			'press-this-extended-settings',
-			plugins_url( 'build/settings.js', dirname( __FILE__ ) ),
+			plugins_url( 'build/settings.js', PRESS_THIS_EXTENDED_FILE ),
 			$asset['dependencies'],
 			$asset['version'],
 			true
@@ -540,7 +543,7 @@ class Settings {
 
 		wp_enqueue_style(
 			'press-this-extended-settings',
-			plugins_url( 'build/settings.css', dirname( __FILE__ ) ),
+			plugins_url( 'build/settings.css', PRESS_THIS_EXTENDED_FILE ),
 			array( 'wp-components' ),
 			$asset['version']
 		);
