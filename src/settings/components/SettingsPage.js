@@ -33,6 +33,7 @@ const SettingsPage = () => {
 	const [ definitions, setDefinitions ] = useState( {} );
 	const [ available, setAvailable ] = useState( [] );
 	const [ version ] = useState( initialVersion || {} );
+	const [ postTypes, setPostTypes ] = useState( [] );
 	const [ blocks, setBlocks ] = useState( [] );
 
 	// Load initial data
@@ -42,7 +43,7 @@ const SettingsPage = () => {
 				setLoading( true );
 				setError( null );
 
-				const [ settingsData, , blocksData ] = await Promise.all( [
+				const [ settingsData, postTypesData, blocksData ] = await Promise.all( [
 					apiFetch( { url: `${ restUrl }/settings` } ),
 					apiFetch( { url: `${ restUrl }/post-types` } ),
 					apiFetch( { url: `${ restUrl }/blocks` } ),
@@ -51,6 +52,7 @@ const SettingsPage = () => {
 				setSettings( settingsData.values || {} );
 				setDefinitions( settingsData.definitions || {} );
 				setAvailable( settingsData.available || [] );
+				setPostTypes( postTypesData || [] );
 				setBlocks( blocksData || [] );
 			} catch ( err ) {
 				setError( err.message || __( 'Failed to load settings', 'press-this-extended' ) );
@@ -150,6 +152,25 @@ const SettingsPage = () => {
 				);
 
 			case 'string':
+				// post_type uses dynamically-loaded post types
+				if ( key === 'post_type' && postTypes.length > 0 ) {
+					const ptOptions = postTypes.map( ( pt ) => ( {
+						value: pt.name,
+						label: pt.label,
+					} ) );
+					return (
+						<div className="setting-row" key={ key }>
+							<SelectControl
+								label={ def.label }
+								help={ def.description }
+								value={ value || '' }
+								options={ ptOptions }
+								onChange={ ( newValue ) => updateSetting( key, newValue ) }
+							/>
+						</div>
+					);
+				}
+
 				// Check if it has options (select) or is a textarea
 				if ( def.options ) {
 					let options = [];

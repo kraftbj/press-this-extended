@@ -263,20 +263,18 @@ const BlockPicker = ( { blocks, selectedBlocks, onChange } ) => {
 								{ isExpanded && (
 									<div className="block-picker__blocks">
 										{ categoryBlocks.map( block => (
-											<div
+											<label
 												key={ block.name }
 												className={ `block-picker__block ${ isSelected( block.name ) ? 'block-picker__block--selected' : '' }` }
-												onClick={ () => toggleBlock( block.name ) }
 											>
 												<CheckboxControl
 													checked={ isSelected( block.name ) }
 													onChange={ () => toggleBlock( block.name ) }
-													onClick={ ( e ) => e.stopPropagation() }
 												/>
 												<span className="block-picker__block-name">
 													{ block.title }
 												</span>
-											</div>
+											</label>
 										) ) }
 									</div>
 								) }
