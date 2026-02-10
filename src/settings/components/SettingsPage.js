@@ -2,7 +2,7 @@
  * Press This Extended - Main Settings Page Component
  */
 
-import { useState, useEffect, useCallback } from '@wordpress/element';
+import { useState, useEffect, useCallback, useRef } from '@wordpress/element';
 import {
 	Button,
 	Panel,
@@ -21,8 +21,10 @@ import BlockPicker from './BlockPicker';
 
 const { restUrl, nonce, version: initialVersion, postFormats } = window.pressThisExtendedSettings || {};
 
-// Set up API fetch with nonce
-apiFetch.use( apiFetch.createNonceMiddleware( nonce ) );
+// Set up API fetch with nonce (only when a valid nonce is available)
+if ( typeof nonce !== 'undefined' && nonce ) {
+	apiFetch.use( apiFetch.createNonceMiddleware( nonce ) );
+}
 
 const SettingsPage = () => {
 	const [ loading, setLoading ] = useState( true );
@@ -35,6 +37,7 @@ const SettingsPage = () => {
 	const [ version ] = useState( initialVersion || {} );
 	const [ postTypes, setPostTypes ] = useState( [] );
 	const [ blocks, setBlocks ] = useState( [] );
+	const saveTimeoutRef = useRef( null );
 
 	// Load initial data
 	useEffect( () => {
@@ -64,6 +67,15 @@ const SettingsPage = () => {
 		loadData();
 	}, [] );
 
+	// Cleanup timeout on unmount
+	useEffect( () => {
+		return () => {
+			if ( saveTimeoutRef.current ) {
+				clearTimeout( saveTimeoutRef.current );
+			}
+		};
+	}, [] );
+
 	// Update a setting
 	const updateSetting = useCallback( ( key, value ) => {
 		setSettings( prev => ( { ...prev, [ key ]: value } ) );
@@ -85,8 +97,13 @@ const SettingsPage = () => {
 			setSettings( response.values || {} );
 			setSaved( true );
 
+			// Clear any existing timeout
+			if ( saveTimeoutRef.current ) {
+				clearTimeout( saveTimeoutRef.current );
+			}
+
 			// Clear saved message after 3 seconds
-			setTimeout( () => setSaved( false ), 3000 );
+			saveTimeoutRef.current = setTimeout( () => setSaved( false ), 3000 );
 		} catch ( err ) {
 			setError( err.message || __( 'Failed to save settings', 'press-this-extended' ) );
 		} finally {

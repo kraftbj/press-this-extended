@@ -427,6 +427,14 @@ class Settings {
 	public function update_settings( $request ) {
 		$params = $request->get_json_params();
 
+		if ( ! is_array( $params ) ) {
+			return new \WP_Error(
+				'press_this_extended_invalid_request',
+				__( 'Invalid request body', 'press-this-extended' ),
+				array( 'status' => 400 )
+			);
+		}
+
 		foreach ( $params as $key => $value ) {
 			if ( ! isset( $this->settings[ $key ] ) ) {
 				continue;

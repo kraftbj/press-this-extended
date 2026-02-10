@@ -9,7 +9,6 @@ import {
 	Button,
 	CheckboxControl,
 	SearchControl,
-	__experimentalText as Text,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
@@ -48,6 +47,9 @@ const CATEGORY_NAMES = {
 	layout: __( 'Layout', 'press-this-extended' ),
 	reusable: __( 'Reusable', 'press-this-extended' ),
 };
+
+// UI Constants
+const MUTED_TEXT_COLOR = '#757575';
 
 const BlockPicker = ( { blocks, selectedBlocks, onChange } ) => {
 	const [ searchQuery, setSearchQuery ] = useState( '' );
@@ -232,13 +234,15 @@ const BlockPicker = ( { blocks, selectedBlocks, onChange } ) => {
 								>
 									<span className="block-picker__category-title">
 										{ CATEGORY_NAMES[ category ] || category }
-										<Text
-											variant="muted"
-											size="small"
-											style={ { marginLeft: '8px' } }
+										<span
+											style={ {
+												marginLeft: '8px',
+												color: MUTED_TEXT_COLOR,
+												fontSize: '0.9em',
+											} }
 										>
 											({ selectedCount }/{ totalCount })
-										</Text>
+										</span>
 									</span>
 									<div style={ { display: 'flex', alignItems: 'center', gap: '8px' } }>
 										<Button
