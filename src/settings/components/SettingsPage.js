@@ -2,7 +2,7 @@
  * Press This Extended - Main Settings Page Component
  */
 
-import { useState, useEffect, useCallback } from '@wordpress/element';
+import { useState, useEffect, useCallback, useRef } from '@wordpress/element';
 import {
 	Button,
 	Panel,
@@ -37,7 +37,7 @@ const SettingsPage = () => {
 	const [ version ] = useState( initialVersion || {} );
 	const [ postTypes, setPostTypes ] = useState( [] );
 	const [ blocks, setBlocks ] = useState( [] );
-	const [ saveTimeoutId, setSaveTimeoutId ] = useState( null );
+	const saveTimeoutRef = useRef( null );
 
 	// Load initial data
 	useEffect( () => {
@@ -70,11 +70,11 @@ const SettingsPage = () => {
 	// Cleanup timeout on unmount
 	useEffect( () => {
 		return () => {
-			if ( saveTimeoutId ) {
-				clearTimeout( saveTimeoutId );
+			if ( saveTimeoutRef.current ) {
+				clearTimeout( saveTimeoutRef.current );
 			}
 		};
-	}, [ saveTimeoutId ] );
+	}, [] );
 
 	// Update a setting
 	const updateSetting = useCallback( ( key, value ) => {
@@ -98,13 +98,12 @@ const SettingsPage = () => {
 			setSaved( true );
 
 			// Clear any existing timeout
-			if ( saveTimeoutId ) {
-				clearTimeout( saveTimeoutId );
+			if ( saveTimeoutRef.current ) {
+				clearTimeout( saveTimeoutRef.current );
 			}
 
 			// Clear saved message after 3 seconds
-			const timeoutId = setTimeout( () => setSaved( false ), 3000 );
-			setSaveTimeoutId( timeoutId );
+			saveTimeoutRef.current = setTimeout( () => setSaved( false ), 3000 );
 		} catch ( err ) {
 			setError( err.message || __( 'Failed to save settings', 'press-this-extended' ) );
 		} finally {

@@ -48,6 +48,9 @@ const CATEGORY_NAMES = {
 	reusable: __( 'Reusable', 'press-this-extended' ),
 };
 
+// UI Constants
+const MUTED_TEXT_COLOR = '#757575';
+
 const BlockPicker = ( { blocks, selectedBlocks, onChange } ) => {
 	const [ searchQuery, setSearchQuery ] = useState( '' );
 	const [ expandedCategories, setExpandedCategories ] = useState( new Set( [ 'text', 'media' ] ) );
@@ -234,7 +237,7 @@ const BlockPicker = ( { blocks, selectedBlocks, onChange } ) => {
 										<span
 											style={ {
 												marginLeft: '8px',
-												color: '#757575',
+												color: MUTED_TEXT_COLOR,
 												fontSize: '0.9em',
 											} }
 										>
