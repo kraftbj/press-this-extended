@@ -121,13 +121,9 @@ class Version_Detector {
 			'post_type',
 			'post_format_override',
 			'default_post_format',
-			'post_format_suggestion',
 			'sideload_allowed_types',
 			'sideload_max_size',
 			'enable_url_proxy',
-			'validate_proxy_url',
-			'validate_request_ip',
-			'press_this_data',
 		);
 
 		if ( $major_version >= 2 ) {

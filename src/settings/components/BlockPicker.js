@@ -9,7 +9,6 @@ import {
 	Button,
 	CheckboxControl,
 	SearchControl,
-	__experimentalText as Text,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
@@ -232,13 +231,15 @@ const BlockPicker = ( { blocks, selectedBlocks, onChange } ) => {
 								>
 									<span className="block-picker__category-title">
 										{ CATEGORY_NAMES[ category ] || category }
-										<Text
-											variant="muted"
-											size="small"
-											style={ { marginLeft: '8px' } }
+										<span
+											style={ {
+												marginLeft: '8px',
+												color: '#757575',
+												fontSize: '0.9em',
+											} }
 										>
 											({ selectedCount }/{ totalCount })
-										</Text>
+										</span>
 									</span>
 									<div style={ { display: 'flex', alignItems: 'center', gap: '8px' } }>
 										<Button
