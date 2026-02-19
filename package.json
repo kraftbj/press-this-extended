@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "@wordpress/env": "^10.0.0",
-    "@wordpress/scripts": "^19.2.4"
+    "@wordpress/scripts": "^31.5.0"
   },
   "dependencies": {
     "@wordpress/api-fetch": "^6.0.0",
