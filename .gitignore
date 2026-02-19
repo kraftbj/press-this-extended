@@ -20,3 +20,6 @@ npm-debug.log*
 # Temporary files
 *.tmp
 *.temp
+
+# wp-env local overrides
+.wp-env.override.json
