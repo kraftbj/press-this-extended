@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build artifacts (keep build/ for distribution)
+# build/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+*.sublime-*
+
+# Logs
+*.log
+npm-debug.log*
+
+# Temporary files
+*.tmp
+*.temp
+
+# wp-env local overrides
+.wp-env.override.json
