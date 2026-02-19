@@ -33,7 +33,8 @@ class Settings {
 	 * Constructor.
 	 */
 	public function __construct() {
-		$this->define_settings();
+		// Settings are defined lazily via get_settings_definitions()
+		// to avoid calling __() before the init action.
 	}
 
 	/**
@@ -223,11 +224,14 @@ class Settings {
 	}
 
 	/**
-	 * Get all settings definitions.
+	 * Get all settings definitions, initializing lazily on first access.
 	 *
 	 * @return array Settings definitions.
 	 */
 	public function get_settings_definitions() {
+		if ( empty( $this->settings ) ) {
+			$this->define_settings();
+		}
 		return $this->settings;
 	}
 
@@ -239,7 +243,7 @@ class Settings {
 	public function get_available_settings() {
 		$available = array();
 
-		foreach ( $this->settings as $key => $setting ) {
+		foreach ( $this->get_settings_definitions() as $key => $setting ) {
 			if ( Version_Detector::has_capability( $setting['capability'] ) ) {
 				$available[ $key ] = $setting;
 			}
@@ -265,7 +269,7 @@ class Settings {
 	 * Register settings with WordPress.
 	 */
 	public function register_settings() {
-		foreach ( $this->settings as $key => $setting ) {
+		foreach ( $this->get_settings_definitions() as $key => $setting ) {
 			$option_name = self::OPTION_PREFIX . $key;
 
 			$args = array(
@@ -403,17 +407,18 @@ class Settings {
 	 * @return \WP_REST_Response Settings response.
 	 */
 	public function get_settings() {
-		$values   = array();
+		$settings  = $this->get_settings_definitions();
+		$values    = array();
 		$available = $this->get_available_settings();
 
-		foreach ( $this->settings as $key => $setting ) {
+		foreach ( $settings as $key => $setting ) {
 			$option_name    = self::OPTION_PREFIX . $key;
 			$values[ $key ] = get_option( $option_name, $setting['default'] );
 		}
 
 		return rest_ensure_response( array(
 			'values'      => $values,
-			'definitions' => $this->settings,
+			'definitions' => $settings,
 			'available'   => array_keys( $available ),
 		) );
 	}
@@ -425,15 +430,16 @@ class Settings {
 	 * @return \WP_REST_Response|\WP_Error Updated settings response or error.
 	 */
 	public function update_settings( $request ) {
-		$params = $request->get_json_params();
+		$settings = $this->get_settings_definitions();
+		$params   = $request->get_json_params();
 
 		foreach ( $params as $key => $value ) {
-			if ( ! isset( $this->settings[ $key ] ) ) {
+			if ( ! isset( $settings[ $key ] ) ) {
 				continue;
 			}
 
 			$option_name = self::OPTION_PREFIX . $key;
-			$sanitize    = $this->get_sanitize_callback( $this->settings[ $key ] );
+			$sanitize    = $this->get_sanitize_callback( $settings[ $key ] );
 			$value       = call_user_func( $sanitize, $value );
 
 			update_option( $option_name, $value );
@@ -615,11 +621,13 @@ npm run build</pre>
 	 * @return mixed Option value.
 	 */
 	public function get_option( $key ) {
-		if ( ! isset( $this->settings[ $key ] ) ) {
+		$settings = $this->get_settings_definitions();
+
+		if ( ! isset( $settings[ $key ] ) ) {
 			return null;
 		}
 
 		$option_name = self::OPTION_PREFIX . $key;
-		return get_option( $option_name, $this->settings[ $key ]['default'] );
+		return get_option( $option_name, $settings[ $key ]['default'] );
 	}
 }
