@@ -2,7 +2,7 @@
 Contributors: kraftbj
 Tags: press this, bookmarklet, quick post
 Requires at least: 6.9
-Tested up to: 6.9
+Tested up to: 7.1
 Stable tag: 2.0.0
 Requires PHP: 7.4
 License: GPLv2 or later
